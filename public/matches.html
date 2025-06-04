@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Record Match</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Football League Manager</h1>
+    <nav role="navigation" aria-label="Primary Navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="add-match.html">Record Match</a></li>
+        <li><a href="standings.html">View Standings</a></li>
+        <!-- Add more links as needed -->
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Record a Match</h2>
+
+    <form id="match-form">
+      <div class="form-group">
+        <label for="league-id">League ID:</label>
+        <select id="league-select" name="leagueId" required>
+          <option value="">-- Select League --</option>
+        </select>
+        
+      </div>
+
+      <div class="form-group">
+        <label for="home-team">Home Team:</label>
+        <select id="home-team" name="homeTeam" required>
+          <option value="">-- Select Home Team --</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="away-team">Away Team:</label>
+        <select id="away-team" name="awayTeam" required>
+          <option value="">-- Select Away Team --</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="home-goals">Home Goals:</label>
+        <input type="number" id="home-goals" name="homeGoals" min="0" required />
+      </div>
+
+      <div class="form-group">
+        <label for="away-goals">Away Goals:</label>
+        <input type="number" id="away-goals" name="awayGoals" min="0" required />
+      </div>
+
+      <div class="form-group">
+        <label for="match-date">Match Date:</label>
+        <input type="date" id="match-date" name="matchDate" required />
+      </div>
+
+      <button type="submit">Submit Match</button>
+    </form>
+
+    <div id="message"></div>
+  </main>
+
+  <footer>
+    &copy; 2024 Football League Manager. All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById('league-id').addEventListener('change', async () => {
+      const leagueId = document.getElementById('league-id').value;
+      const homeSelect = document.getElementById('home-team');
+      const awaySelect = document.getElementById('away-team');
+
+      // Reset options
+      homeSelect.innerHTML = '<option value="">-- Select Home Team --</option>';
+      awaySelect.innerHTML = '<option value="">-- Select Away Team --</option>';
+
+      if (!leagueId) return;
+
+      try {
+        const res = await fetch(`/api/teams?league_id=${leagueId}`);
+        if (!res.ok) throw new Error('Network response was not ok');
+        const teams = await res.json();
+
+        teams.forEach(team => {
+          const homeOption = document.createElement('option');
+          homeOption.value = team.id;
+          homeOption.textContent = team.name;
+
+          const awayOption = document.createElement('option');
+          awayOption.value = team.id;
+          awayOption.textContent = team.name;
+
+          homeSelect.appendChild(homeOption);
+          awaySelect.appendChild(awayOption);
+        });
+      } catch (err) {
+        console.error('Error fetching teams:', err);
+        document.getElementById('message').textContent = 'Failed to load teams. Please try again.';
+      }
+    });
+    async function loadLeagues() {
+  try {
+    const res = await fetch('/api/leagues');
+    if (!res.ok) throw new Error('Failed to fetch leagues');
+    const leagues = await res.json();
+
+    const leagueSelect = document.getElementById('league-select');
+    leagues.forEach(league => {
+      const option = document.createElement('option');
+      option.value = league.id;
+      option.textContent = league.name;
+      leagueSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error(error);
+    document.getElementById('message').textContent = 'Could not load leagues. Try again later.';
+  }
+}
+
+// Load leagues when page loads
+window.addEventListener('DOMContentLoaded', loadLeagues);
+
+
+    // Prevent selecting the same team
+    document.getElementById('match-form').addEventListener('submit', (e) => {
+      const homeTeam = document.getElementById('home-team').value;
+      const awayTeam = document.getElementById('away-team').value;
+
+      if (homeTeam === awayTeam) {
+        e.preventDefault();
+        document.getElementById('message').textContent = 'Home and away teams must be different!';
+      }
+    });
+  </script>
+</body>
+
+</html>

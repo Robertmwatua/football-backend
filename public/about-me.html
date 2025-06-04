@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Me - Robert Mwatua</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background: linear-gradient(135deg, #0d3b66 0%, #145374 40%, #21a179 100%);
+      color: #eee;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInBg 1.5s ease forwards;
+    }
+    @keyframes fadeInBg {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 2rem 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      text-align: center;
+      position: relative;
+      overflow: visible;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 2.75rem;
+      letter-spacing: 0.05em;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      animation: fadeUp 1s ease forwards;
+    }
+    header h1 .fa-futbol {
+      color: #21a179;
+      font-size: 2.8rem;
+      animation: bounce 2.5s infinite ease-in-out;
+    }
+    @keyframes fadeUp {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    @keyframes bounce {
+      0%, 100% {transform: translateY(0);}
+      50% {transform: translateY(-10px);}
+    }
+
+    main {
+      flex: 1 0 auto;
+      max-width: 900px;
+      margin: 2rem auto 3rem auto;
+      background: rgba(0,0,0,0.3);
+      padding: 2rem 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      color: #fafafa;
+      user-select: none;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+      background: rgba(255,255,255,0.05);
+      padding: 1.5rem 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      backdrop-filter: saturate(180%) blur(10px);
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      font-weight: 600;
+      font-size: 1.9rem;
+      margin: 0 0 1rem 0;
+      color: #21a179;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: relative;
+    }
+    h2::after {
+      content: "";
+      flex-grow: 1;
+      height: 2px;
+      background: #21a179;
+      margin-left: 1rem;
+      border-radius: 2px;
+      opacity: 0.7;
+    }
+    h2 .icon {
+      font-size: 1.6rem;
+    }
+
+    p, ul {
+      font-size: 1rem;
+      margin-top: 0;
+      color: #e0e0e0;
+    }
+    ul {
+      padding-left: 1.5rem;
+    }
+    ul li {
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.2rem;
+    }
+    ul li::before {
+      content: "⚽";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #21a179;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    form {
+      background: rgba(32, 44, 55, 0.8);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.7);
+      color: #d1d1d1;
+    }
+    form label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #a5d6a7;
+      letter-spacing: 0.03em;
+    }
+    form input[type="text"],
+    form textarea {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 1.3rem;
+      outline: none;
+      background: rgba(255,255,255,0.9);
+      color: #222;
+      transition: box-shadow 0.3s ease;
+    }
+    form input[type="text"]:focus,
+    form textarea:focus {
+      box-shadow: 0 0 8px #21a179;
+      background: #fff;
+    }
+
+    button {
+      background: linear-gradient(90deg, #21a179, #0d634f);
+      color: #f1f1f1;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 0.9rem 2rem;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.4s ease, transform 0.25s ease;
+      box-shadow: 0 6px 15px rgba(33,161,121,0.65);
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    button:hover,
+    button:focus {
+      background: linear-gradient(90deg, #0d634f, #21a179);
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(33,161,121,0.85);
+      outline: none;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    /* Back to Home button center adjust */
+    section.back-home {
+      text-align: center;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(12px);
+      text-align: center;
+      padding: 1rem 1rem;
+      font-size: 0.875rem;
+      color: #a5d6a7;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      main {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+      h2 {
+        font-size: 1.6rem;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+      button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1><i class="fas fa-futbol"></i> About Me - Robert Mwatua</h1>
+  </header>
+
+  <main>
+    <section class="visible" style="animation-delay: 0.3s;">
+      <h2><i class="fas fa-hand-paper icon"></i> Hello, I'm Robert!</h2>
+      <p>
+        I’m a passionate tech enthusiast, ethical hacker, and developer from Kenya. I love working on smart ideas that help solve everyday problems. This platform is one of my creations to help manage football scores, view league standings, and enjoy the game even more!
+      </p>
+    </section>
+
+    <section class="visible" style="animation-delay: 0.6s;">
+      <h2><i class="fas fa-football-ball icon"></i> A Bit About eFootball</h2>
+      <p>
+        I’ve always enjoyed eFootball because it teaches teamwork, decision-making, and competition. Whether it's on the field or in code, I believe strategy and consistency win games. This system is built for that same spirit — keeping things fair, easy, and fun!
+      </p>
+    </section>
+
+    <section class="visible" style="animation-delay: 0.9s;">
+      <h2><i class="fas fa-book-open icon"></i> How to Use This Platform</h2>
+      <ul>
+        <li>First, sign up or log in with your name.</li>
+        <li>Select your favorite teams and save them.</li>
+        <li>Add match results using the <strong>Add Match</strong> section.</li>
+        <li>Click <strong>View Standings</strong> to see live updates of the table.</li>
+        <li>Each user's data is saved separately — it’s all yours!</li>
+      </ul>
+    </section>
+
+    <section class="visible" style="animation-delay: 1.2s;">
+      <h2><i class="fas fa-comments icon"></i> Leave a Comment</h2>
+      <form action="https://formspree.io/f/mldndjwd" method="POST" autocomplete="off" novalidate>
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your name" />
+      
+        <label for="message">Your Message:</label>
+        <textarea id="message" name="message" rows="5" required placeholder="Write your message"></textarea>
+      
+        <button type="submit" aria-label="Send Feedback"><i class="fas fa-paper-plane"></i> Send Feedback</button>
+      </form>
+    </section>
+
+    <section class="back-home visible" style="animation-delay: 1.5s;">
+      <button onclick="window.location.href='index.html'" aria-label="Back to Home"><i class="fas fa-house"></i> Back to Home</button>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Robert Mwatua. All rights reserved. | <a href="mailto:robert@example.com" style="color:#21a179; text-decoration:none;">Contact Me</a>
+  </footer>
+
+  <script>
+    // Reveal sections with fadeInUp delay (already visible on load via class visible for simplicity)
+    // Could add scroll reveal logic here if needed in future
+  </script>
+  
+</body>
+</html>
+

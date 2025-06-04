@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (!loggedInUser) {
+      window.location.href = "login.html";
+    }
+  </script>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Team Selection | eFootball Mode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --ef-blue: #1a2a6c;
+      --ef-dark-blue: #0d1b3e;
+      --ef-light-blue: #4a90e2;
+      --ef-yellow: #f5c518;
+      --ef-gold: #ffd700;
+      --ef-orange: #f57c00;
+      --ef-white: #ffffff;
+      --ef-gray: #e0e0e0;
+      --ef-dark-gray: #333333;
+      --ef-success: #4caf50;
+      --ef-danger: #f44336;
+      --ef-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --ef-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --ef-border-radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--ef-blue) 0%, var(--ef-dark-blue) 100%);
+      min-height: 100vh;
+      padding: 1rem;
+      color: var(--ef-white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: rgba(26, 42, 108, 0.8);
+      border-radius: var(--ef-border-radius);
+      box-shadow: var(--ef-shadow);
+      border: 1px solid var(--ef-light-blue);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+      z-index: -1;
+      animation: rotate 60s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--ef-yellow);
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      letter-spacing: 1px;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--ef-yellow), transparent);
+      border-radius: 3px;
+    }
+
+    h3 {
+      color: var(--ef-yellow);
+      margin: 1.5rem 0 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--ef-gray);
+    }
+
+    select, input {
+      width: 100%;
+      padding: 0.8rem 1.2rem;
+      margin: 0.5rem 0 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--ef-border-radius);
+      font-size: 1rem;
+      transition: var(--ef-transition);
+      background-color: rgba(0, 0, 0, 0.3);
+      color: var(--ef-white);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f5c518'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--ef-yellow);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.3);
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .team-list, .selected-teams {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .team-item {
+      padding: 0.8rem 1.5rem;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: var(--ef-border-radius);
+      cursor: pointer;
+      transition: var(--ef-transition);
+      font-weight: 500;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+      color: var(--ef-white);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .team-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+      z-index: 0;
+    }
+
+    .team-item:hover {
+      background: rgba(74, 144, 226, 0.3);
+      color: var(--ef-white);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border-color: var(--ef-light-blue);
+    }
+
+    .team-item.selected {
+      background: rgba(245, 197, 24, 0.2);
+      border-color: var(--ef-yellow);
+      color: var(--ef-yellow);
+      font-weight: 600;
+    }
+
+    .team-item.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 2px;
+      right: 5px;
+      font-size: 0.8rem;
+      color: var(--ef-yellow);
+    }
+
+    .selected-item {
+      background: rgba(245, 197, 24, 0.2);
+      color: var(--ef-yellow);
+      border: 2px solid var(--ef-yellow);
+      font-weight: 600;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--ef-border-radius);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .selected-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(245, 197, 24, 0.1) 0%, transparent 100%);
+      z-index: 0;
+    }
+
+    .selected-item .remove-selected {
+      color: var(--ef-danger);
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: var(--ef-transition);
+      padding: 0 0.3rem;
+      border-radius: 50%;
+      margin-left: 0.5rem;
+      z-index: 1;
+    }
+
+    .selected-item .remove-selected:hover {
+      background-color: rgba(244, 67, 54, 0.2);
+      transform: scale(1.2);
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--ef-border-radius);
+      cursor: pointer;
+      transition: var(--ef-transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+      z-index: -1;
+    }
+
+    .btn-primary {
+      background-color: var(--ef-yellow);
+      color: var(--ef-dark-blue);
+      box-shadow: 0 4px 8px rgba(245, 197, 24, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--ef-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(245, 197, 24, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(245, 197, 24, 0.3);
+    }
+
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--ef-white);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      justify-content: center;
+    }
+
+    .section {
+      margin-bottom: 2.5rem;
+      padding: 2rem;
+      border-radius: var(--ef-border-radius);
+      background: rgba(0, 0, 0, 0.2);
+      box-shadow: var(--ef-shadow);
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(74, 144, 226, 0.05) 0%, transparent 100%);
+      z-index: -1;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--ef-yellow);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .section-title i {
+      font-size: 1.5rem;
+      color: var(--ef-yellow);
+    }
+
+    .custom-team-input {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .custom-team-input input {
+      flex: 1;
+      margin: 0;
+    }
+
+    .custom-team-input button {
+      white-space: nowrap;
+      min-width: 120px;
+    }
+
+    .custom-team-list {
+      margin-top: 1.5rem;
+    }
+
+    .custom-team-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: var(--ef-border-radius);
+      margin-bottom: 1rem;
+      transition: var(--ef-transition);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .custom-team-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+      z-index: 0;
+    }
+
+    .custom-team-item:hover {
+      background: rgba(74, 144, 226, 0.2);
+      transform: translateX(5px);
+      border-color: rgba(74, 144, 226, 0.5);
+    }
+
+    .custom-team-item.selected {
+      background: rgba(245, 197, 24, 0.1);
+      border-color: var(--ef-yellow);
+      color: var(--ef-yellow);
+    }
+
+    .custom-team-item .team-name {
+      font-weight: 500;
+      z-index: 1;
+    }
+
+    .remove-custom-team {
+      color: var(--ef-danger);
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.3rem;
+      transition: var(--ef-transition);
+      padding: 0 0.5rem;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .remove-custom-team:hover {
+      background-color: rgba(244, 67, 54, 0.2);
+      transform: scale(1.2);
+    }
+
+    .league-badge {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      margin-right: 1rem;
+    }
+
+    .team-logo {
+      width: 24px;
+      height: 24px;
+      margin-right: 0.8rem;
+      object-fit: contain;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+        margin: 1rem auto;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .custom-team-input {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .section {
+        padding: 1.5rem;
+      }
+      
+      h2 {
+        font-size: 2rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .team-item, .custom-team-item {
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .btn-primary {
+      animation: pulse 2s infinite;
+    }
+
+    /* Tooltip styles */
+    [data-tooltip] {
+      position: relative;
+    }
+
+    [data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ef-dark-gray);
+      color: var(--ef-white);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    [data-tooltip]:hover::before {
+      content: '';
+      position: absolute;
+      bottom: calc(100% - 5px);
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px;
+      border-style: solid;
+      border-color: var(--ef-dark-gray) transparent transparent transparent;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    [data-tooltip]:hover::after,
+    [data-tooltip]:hover::before {
+      opacity: 1;
+    }
+
+    /* Notification toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ef-yellow);
+      color: var(--ef-dark-blue);
+      padding: 1rem 2rem;
+      border-radius: var(--ef-border-radius);
+      box-shadow: var(--ef-shadow);
+      font-weight: 600;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast i {
+      font-size: 1.2rem;
+    }
+
+    /* Loading spinner */
+    .loading-spinner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .loading-spinner.active {
+      display: flex;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--ef-yellow);
+      animation: spin 1s ease-in-out infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: var(--ef-white);
+      font-weight: 500;
+      margin-top: 1rem;
+    }
+
+    /* Team counter */
+    .team-counter {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--ef-yellow);
+      color: var(--ef-dark-blue);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Search box */
+    .search-box {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-box input {
+      padding-left: 3rem;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ef-yellow);
+      z-index: 1;
+    }
+
+    /* League selector with badges */
+    .league-selector {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ef-yellow) transparent;
+    }
+
+    .league-selector::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .league-selector::-webkit-scrollbar-thumb {
+      background-color: var(--ef-yellow);
+      border-radius: 3px;
+    }
+
+    .league-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: var(--ef-transition);
+      padding: 0.5rem;
+      border-radius: var(--ef-border-radius);
+      min-width: 80px;
+    }
+
+    .league-option:hover {
+      background: rgba(74, 144, 226, 0.2);
+    }
+
+    .league-option.active {
+      background: rgba(245, 197, 24, 0.2);
+      border: 1px solid var(--ef-yellow);
+    }
+
+    .league-option img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .league-option span {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Spinner -->
+  <div class="loading-spinner" id="loadingSpinner">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading Teams...</div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toastNotification"></div>
+
+  <div class="container">
+    <h2><i class="fas fa-trophy"></i> Team Selection</h2>
+
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-futbol"></i> Select from Predefined Leagues
+      </div>
+      
+      <!-- League selector with badges -->
+      <div class="league-selector" id="leagueSelector">
+        <div class="league-option" data-league="EPL">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/1200px-Premier_League_Logo.svg.png" alt="EPL">
+          <span>Premier League</span>
+        </div>
+        <div class="league-option" data-league="LaLiga">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/LaLiga.svg/1200px-LaLiga.svg.png" alt="La Liga">
+          <span>La Liga</span>
+        </div>
+        <div class="league-option" data-league="SerieA">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e1/Serie_A_logo_%282019%29.svg/1200px-Serie_A_logo_%282019%29.svg.png" alt="Serie A">
+          <span>Serie A</span>
+        </div>
+        <div class="league-option" data-league="Bundesliga">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Bundesliga_logo_%282017%29.svg/1200px-Bundesliga_logo_%282017%29.svg.png" alt="Bundesliga">
+          <span>Bundesliga</span>
+        </div>
+        <div class="league-option" data-league="Ligue1">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Ligue1_Uber_Eats_logo.png/1200px-Ligue1_Uber_Eats_logo.png" alt="Ligue 1">
+          <span>Ligue 1</span>
+        </div>
+      </div>
+
+      <!-- Search box -->
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="teamSearch" placeholder="Search for a team...">
+      </div>
+
+      <div class="team-list" id="teamList">
+        <!-- Teams will load here -->
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-plus-circle"></i> Create Custom Teams
+      </div>
+      
+      <div class="custom-team-input">
+        <input type="text" id="customTeamName" placeholder="Enter team name (e.g., My Dream Team)">
+        <button class="btn btn-primary" onclick="addCustomTeam()" data-tooltip="Add your own custom team">
+          <i class="fas fa-plus"></i> Add Team
+        </button>
+      </div>
+      
+      <div class="custom-team-list" id="customTeamList">
+        <!-- Custom teams will appear here -->
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-list-check"></i> Selected Teams
+        <div class="team-counter" id="teamCounter">0</div>
+      </div>
+      
+      <div class="selected-teams" id="selectedTeams">
+        <!-- Selected teams appear here -->
+        <div class="empty-state" id="emptyState">
+          <p>No teams selected yet. Click on teams above to add them to your selection.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="goBack()" data-tooltip="Return to home screen">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+      <button class="btn btn-primary" onclick="validateSelection()" data-tooltip="Proceed to next step" id="nextBtn">
+        Continue <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Enhanced teams database with logos and more teams
+    const teamsDatabase = {
+      EPL: [
+        { name: 'Arsenal', logo: 'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg' },
+        { name: 'Chelsea', logo: 'https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg' },
+        { name: 'Manchester City', logo: 'https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg' },
+        { name: 'Liverpool', logo: 'https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg' },
+        { name: 'Manchester United', logo: 'https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg' },
+        { name: 'Tottenham Hotspur', logo: 'https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg' },
+        { name: 'Newcastle United', logo: 'https://upload.wikimedia.org/wikipedia/en/5/56/Newcastle_United_Logo.svg' },
+        { name: 'Aston Villa', logo: 'https://upload.wikimedia.org/wikipedia/en/9/9f/Aston_Villa_logo.svg' }
+      ],
+      LaLiga: [
+        { name: 'Real Madrid', logo: 'https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg' },
+        { name: 'Barcelona', logo: 'https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg' },
+        { name: 'Atletico Madrid', logo: 'https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2017_logo.svg' },
+        { name: 'Sevilla', logo: 'https://upload.wikimedia.org/wikipedia/en/8/86/Sevilla_cf_200px.png' },
+        { name: 'Valencia', logo: 'https://upload.wikimedia.org/wikipedia/en/9/9c/Valenciacf.svg' },
+        { name: 'Villarreal', logo: 'https://upload.wikimedia.org/wikipedia/en/7/70/Villarreal_CF_logo.svg' }
+      ],
+      SerieA: [
+        { name: 'Juventus', logo: 'https://upload.wikimedia.org/wikipedia/en/0/0c/Juventus_FC_2017_logo.svg' },
+        { name: 'AC Milan', logo: 'https://upload.wikimedia.org/wikipedia/en/0/0c/AC_Milan.svg' },
+        { name: 'Inter Milan', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/05/FC_Internazionale_Milano_2021.svg' },
+        { name: 'Napoli', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2d/SSC_Neapel.svg' },
+        { name: 'Roma', logo: 'https://upload.wikimedia.org/wikipedia/en/f/f7/AS_Roma_logo_%282017%29.svg' },
+        { name: 'Lazio', logo: 'https://upload.wikimedia.org/wikipedia/en/5/53/SS_Lazio_badge.svg' }
+      ],
+      Bundesliga: [
+        { name: 'Bayern Munich', logo: 'https://upload.wikimedia.org/wikipedia/commons/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg' },
+        { name: 'Borussia Dortmund', logo: 'https://upload.wikimedia.org/wikipedia/en/6/67/Borussia_Dortmund_logo.svg' },
+        { name: 'RB Leipzig', logo: 'https://upload.wikimedia.org/wikipedia/en/0/04/RB_Leipzig_2014_logo.svg' },
+        { name: 'Bayer Leverkusen', logo: 'https://upload.wikimedia.org/wikipedia/en/5/59/Bayer_04_Leverkusen_logo.svg' },
+        { name: 'Wolfsburg', logo: 'https://upload.wikimedia.org/wikipedia/en/f/f3/VfL_Wolfsburg.svg' }
+      ],
+      Ligue1: [
+        { name: 'Paris Saint-Germain', logo: 'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg' },
+        { name: 'Marseille', logo: 'https://upload.wikimedia.org/wikipedia/en/4/43/Olympique_de_Marseille.svg' },
+        { name: 'Lyon', logo: 'https://upload.wikimedia.org/wikipedia/en/0/0c/Olympique_Lyonnais.svg' },
+        { name: 'Monaco', logo: 'https://upload.wikimedia.org/wikipedia/en/2/21/AS_Monaco_FC.svg' },
+        { name: 'Lille', logo: 'https://upload.wikimedia.org/wikipedia/en/9/9c/Lille_OSC.svg' }
+      ]
+    };
+
+    // DOM elements
+    const leagueSelector = document.getElementById('leagueSelector');
+    const teamList = document.getElementById('teamList');
+    const selectedTeams = document.getElementById('selectedTeams');
+    const customTeamName = document.getElementById('customTeamName');
+    const customTeamList = document.getElementById('customTeamList');
+    const teamSearch = document.getElementById('teamSearch');
+    const teamCounter = document.getElementById('teamCounter');
+    const emptyState = document.getElementById('emptyState');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const toastNotification = document.getElementById('toastNotification');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // State variables
+    let selected = [];
+    let customTeams = [];
+    let currentLeague = '';
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set default league to EPL
+      loadTeams('EPL');
+      
+      // Set active league in selector
+      const leagueOptions = document.querySelectorAll('.league-option');
+      leagueOptions[0].classList.add('active');
+      
+      // Add event listeners
+      leagueSelector.addEventListener('click', handleLeagueSelection);
+      teamSearch.addEventListener('input', filterTeams);
+      customTeamName.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addCustomTeam();
+      });
+      
+      // Check if there are previously selected teams
+      const savedTeams = localStorage.getItem('selectedTeams');
+      if (savedTeams) {
+        selected = JSON.parse(savedTeams);
+        updateSelectedTeamsDisplay();
+      }
+    });
+
+    // Handle league selection
+    function handleLeagueSelection(e) {
+      const leagueOption = e.target.closest('.league-option');
+      if (!leagueOption) return;
+      
+      const league = leagueOption.dataset.league;
+      if (league === currentLeague) return;
+      
+      // Update active state
+      document.querySelectorAll('.league-option').forEach(opt => {
+        opt.classList.remove('active');
+      });
+      leagueOption.classList.add('active');
+      
+      // Load teams for selected league
+      loadTeams(league);
+    }
+
+    // Load teams for a specific league
+    function loadTeams(league) {
+      showLoading();
+      currentLeague = league;
+      
+      // Simulate loading delay
+      setTimeout(() => {
+        teamList.innerHTML = '';
+        
+        if (teamsDatabase[league]) {
+          teamsDatabase[league].forEach(team => {
+            const teamDiv = document.createElement('div');
+            teamDiv.className = 'team-item';
+            teamDiv.dataset.name = team.name.toLowerCase();
+            teamDiv.innerHTML = `
+              <img src="${team.logo}" class="team-logo" alt="${team.name} logo">
+              <span>${team.name}</span>
+            `;
+            teamDiv.onclick = () => selectTeam(team.name, team.logo);
+            teamList.appendChild(teamDiv);
+          });
+        }
+        
+        hideLoading();
+      }, 800);
+    }
+
+    // Filter teams based on search input
+    function filterTeams() {
+      const searchTerm = teamSearch.value.toLowerCase();
+      const teamItems = document.querySelectorAll('.team-item');
+      
+      teamItems.forEach(item => {
+        const teamName = item.dataset.name;
+        if (teamName.includes(searchTerm)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Select a team
+    function selectTeam(team, logo = '') {
+      const teamObj = { name: team, logo };
+      
+      if (!selected.some(t => t.name === team)) {
+        selected.push(teamObj);
+        updateSelectedTeamsDisplay();
+        showToast(`Added ${team} to selection`);
+        
+        // Highlight the selected team in the list
+        const teamItems = document.querySelectorAll('.team-item');
+        teamItems.forEach(item => {
+          if (item.textContent.includes(team)) {
+            item.classList.add('selected');
+          }
+        });
+      } else {
+        showToast(`${team} is already selected`, 'error');
+      }
+    }
+
+    // Add a custom team
+    function addCustomTeam() {
+      const teamName = customTeamName.value.trim();
+      
+      if (!teamName) {
+        showToast('Please enter a team name', 'error');
+        return;
+      }
+      
+      if (teamName.length > 30) {
+        showToast('Team name is too long (max 30 chars)', 'error');
+        return;
+      }
+      
+      if (customTeams.some(t => t.name === teamName)) {  // Corrected with both parentheses
+        showToast(`${teamName} is already added`, 'error');
+        return;
+      }
+      
+      if (selected.some(t => t.name === teamName)) {
+        showToast(`${teamName} is already selected`, 'error');
+        return;
+      }
+      
+      const customTeam = {
+        name: teamName,
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Football_%28soccer_ball%29.svg/1200px-Football_%28soccer_ball%29.svg.png'
+      };
+      
+      customTeams.push(customTeam);
+      customTeamName.value = '';
+      updateCustomTeamsDisplay();
+      showToast(`Added ${teamName} as custom team`);
+    }
+
+    // Update custom teams display
+    function updateCustomTeamsDisplay() {
+      customTeamList.innerHTML = '';
+      
+      if (customTeams.length === 0) {
+        customTeamList.innerHTML = '<p style="color: var(--ef-gray); font-style: italic;">No custom teams added yet</p>';
+        return;
+      }
+      
+      customTeams.forEach(team => {
+        const teamItem = document.createElement('div');
+        teamItem.className = 'custom-team-item';
+        teamItem.innerHTML = `
+          <span class="team-name">${team.name}</span>
+          <span class="remove-custom-team" onclick="removeCustomTeam('${team.name}')">×</span>
+        `;
+        teamItem.onclick = () => selectTeam(team.name, team.logo);
+        customTeamList.appendChild(teamItem);
+      });
+    }
+
+    // Remove a custom team
+    function removeCustomTeam(teamName) {
+      event.stopPropagation();
+      customTeams = customTeams.filter(t => t.name !== teamName);
+      selected = selected.filter(t => t.name !== teamName);
+      updateCustomTeamsDisplay();
+      updateSelectedTeamsDisplay();
+      showToast(`Removed ${teamName}`, 'warning');
+    }
+
+    // Update selected teams display
+    function updateSelectedTeamsDisplay() {
+      selectedTeams.innerHTML = '';
+      
+      if (selected.length === 0) {
+        emptyState.style.display = 'block';
+        nextBtn.disabled = true;
+      } else {
+        emptyState.style.display = 'none';
+        nextBtn.disabled = false;
+      }
+      
+      selected.forEach((team, index) => {
+        const selDiv = document.createElement('div');
+        selDiv.className = 'selected-item';
+        selDiv.innerHTML = `
+          <img src="${team.logo}" class="team-logo" alt="${team.name} logo">
+          <span>${team.name}</span>
+          <span class="remove-selected" onclick="removeSelectedTeam(${index})">×</span>
+        `;
+        selectedTeams.appendChild(selDiv);
+      });
+      
+      // Update team counter
+      teamCounter.textContent = selected.length;
+      
+      // Save to localStorage
+      localStorage.setItem('selectedTeams', JSON.stringify(selected));
+    }
+
+    // Remove a selected team
+    function removeSelectedTeam(index) {
+      const removedTeam = selected[index].name;
+      selected.splice(index, 1);
+      updateSelectedTeamsDisplay();
+      showToast(`Removed ${removedTeam} from selection`, 'warning');
+      
+      // Remove highlight from team list
+      const teamItems = document.querySelectorAll('.team-item');
+      teamItems.forEach(item => {
+        if (item.textContent.includes(removedTeam)) {
+          item.classList.remove('selected');
+        }
+      });
+    }
+
+    // Validate selection before proceeding
+    function validateSelection() {
+      if (selected.length < 2) {
+        showToast('Please select at least 2 teams', 'error');
+        return;
+      }
+      
+      if (selected.length > 10) {
+        showToast('Maximum 10 teams allowed', 'error');
+        return;
+      }
+      
+      goToNextPage();
+    }
+
+    // Show loading spinner
+    function showLoading() {
+      loadingSpinner.classList.add('active');
+    }
+
+    // Hide loading spinner
+    function hideLoading() {
+      loadingSpinner.classList.remove('active');
+    }
+
+    // Show notification toast
+    function showToast(message, type = 'success') {
+      toastNotification.textContent = message;
+      toastNotification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${message}`;
+      
+      // Set color based on type
+      if (type === 'success') {
+        toastNotification.style.background = 'var(--ef-success)';
+      } else if (type === 'error') {
+        toastNotification.style.background = 'var(--ef-danger)';
+      } else if (type === 'warning') {
+        toastNotification.style.background = 'var(--ef-orange)';
+      } else {
+        toastNotification.style.background = 'var(--ef-yellow)';
+        toastNotification.style.color = 'var(--ef-dark-blue)';
+      }
+      
+      toastNotification.classList.add('show');
+      
+      // Hide after 3 seconds
+      setTimeout(() => {
+        toastNotification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Navigate to next page
+    function goToNextPage() {
+      const allSelectedTeams = [...selected];
+      localStorage.setItem('selectedTeams', JSON.stringify(allSelectedTeams));
+      window.location.href = 'add-scores.html';
+    }
+
+    // Go back to home page
+    function goBack() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

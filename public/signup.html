@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Football League Manager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1e3c72;
+      --secondary: #2a5298;
+      --accent: #ffd700;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --success: #28a745;
+      --danger: #dc3545;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .logo {
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      height: 60px;
+      width: auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    p.subtitle {
+      margin-bottom: 30px;
+      opacity: 0.8;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .input-field {
+      position: relative;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 15px 15px 15px 45px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+
+    .input-field input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .input-field i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #e6c200;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-link {
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    .login-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    #message {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .success {
+      background: rgba(40, 167, 69, 0.2);
+      border: 1px solid var(--success);
+      color: #b8f7c5;
+      display: block;
+    }
+
+    .error {
+      background: rgba(220, 53, 69, 0.2);
+      border: 1px solid var(--danger);
+      color: #f8b8bd;
+      display: block;
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png" alt="Football League Manager Logo">
+    </div>
+    <h1>Create Your Account</h1>
+    <p class="subtitle">Join thousands of football leagues managing their competitions with our platform</p>
+
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <div class="input-field">
+          <i class="fas fa-user"></i>
+          <input type="text" id="username" name="username" placeholder="Choose a username (min 3 chars)" required minlength="3">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-field">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" name="password" placeholder="Create a password (min 6 chars)" required minlength="6">
+          <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-field">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+          <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+        </div>
+      </div>
+
+      <button type="submit">Sign Up</button>
+      <div id="message"></div>
+    </form>
+
+    <div class="login-link">
+      Already have an account? <a href="login.html">Log in</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const messageDiv = document.getElementById('message');
+
+      // Clear previous messages
+      messageDiv.style.display = 'none';
+
+      // Client-side validation
+      if (password !== confirmPassword) {
+        messageDiv.textContent = 'Passwords do not match';
+        messageDiv.className = 'error';
+        messageDiv.style.display = 'block';
+        return;
+      }
+
+      if (password.length < 6) {
+        messageDiv.textContent = 'Password must be at least 6 characters';
+        messageDiv.className = 'error';
+        messageDiv.style.display = 'block';
+        return;
+      }
+
+      if (username.length < 3) {
+        messageDiv.textContent = 'Username must be at least 3 characters';
+        messageDiv.className = 'error';
+        messageDiv.style.display = 'block';
+        return;
+      }
+
+      try {
+        // Show loading state
+        messageDiv.textContent = 'Creating your account...';
+        messageDiv.className = '';
+        messageDiv.style.display = 'block';
+
+        const response = await fetch('/api/users/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include', // Important for cookies
+          body: JSON.stringify({ username, password })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          // Handle successful signup
+          messageDiv.textContent = 'Account created successfully! Redirecting...';
+          messageDiv.className = 'success';
+          
+          // Redirect after short delay
+          setTimeout(() => {
+            window.location.href = result.redirect || '/login.html?signup=success';
+          }, 1500);
+        } else {
+          // Handle signup failure
+          messageDiv.textContent = result.message || 'Signup failed. Please try again.';
+          messageDiv.className = 'error';
+        }
+      } catch (error) {
+        console.error('Signup error:', error);
+        messageDiv.textContent = 'Network error. Please try again.';
+        messageDiv.className = 'error';
+        messageDiv.style.display = 'block';
+      }
+    });
+
+    // Password visibility toggle
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+    });
+
+    document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+      const confirmInput = document.getElementById('confirmPassword');
+      const type = confirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      confirmInput.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+    });
+
+    // Check for existing error messages (e.g., from redirect)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error')) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = decodeURIComponent(urlParams.get('error'));
+      messageDiv.className = 'error';
+      messageDiv.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

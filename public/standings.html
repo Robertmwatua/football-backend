@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (!loggedInUser) {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>League Standings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+      background: linear-gradient(135deg, #0d3b66, #145374);
+      color: #fff;
+      animation: fadeIn 1s ease forwards;
+      position: relative; /* For floating button positioning */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 2rem;
+      color: #21a179;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 10px;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    th {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #21a179;
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .message {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 40px;
+      color: #ddd;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .actions {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    /* Floating button styles */
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #21a179;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s, transform 0.2s;
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    .floating-btn:hover {
+      background-color: #1a8f5a;
+      transform: scale(1.1);
+    }
+
+    /* Tooltip label above the floating button */
+    .floating-label {
+      position: fixed;
+      bottom: 90px;
+      right: 10px;
+      background: rgba(33, 161, 121, 0.95);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      opacity: 0;
+      pointer-events: none;
+      animation: fadeInUp 0.7s ease forwards 0.7s;
+      max-width: 160px;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 1.5rem;
+      }
+      .btn {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+      .floating-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+      .floating-label {
+        bottom: 70px;
+        right: 5px;
+        font-size: 13px;
+        max-width: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>League Standings</h2>
+  <table id="standingsTable">
+    <thead>
+      <tr>
+        <th>Team</th>
+        <th>Played</th>
+        <th>Won</th>
+        <th>Drawn</th>
+        <th>Lost</th>
+        <th>GF</th>
+        <th>GA</th>
+        <th>GD</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div id="noDataMessage" class="center" style="display:none;">
+    <p class="message">No matches found for user: <strong id="usernameDisplay"></strong>.</p>
+    <a href="add-scores.html" class="btn">Add Match Scores</a>
+  </div>
+
+  <div class="actions">
+    <a href="index.html" class="btn">🏠 Back to Home</a>
+    <button onclick="logout()" class="btn">🚪 Logout</button>
+    <button onclick="deleteStandings()" class="btn" style="background-color: #f44336;">🗑️ Delete Standings</button>
+    <button onclick="downloadStandings()" class="btn" style="background-color: #ff9800;">📥 Download Standings</button>
+  </div>
+
+  <!-- Floating Update Scores Button -->
+  <a href="add-match.html" class="floating-btn" aria-label="Update Scores" title="Update your match scores">
+    <i class="fas fa-pen"></i>
+  </a>
+  <div class="floating-label">Update your matches and scores here</div>
+
+  <script>
+    const username = localStorage.getItem('loggedInUser');
+    document.getElementById('usernameDisplay').textContent = username;
+
+    const matchData = JSON.parse(localStorage.getItem('matchResults') || '{}');
+    const matches = matchData[username] || [];
+
+    const standings = {};
+
+    matches.forEach(({ team1, team2, score1, score2 }) => {
+      if (!standings[team1]) standings[team1] = { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0 };
+      if (!standings[team2]) standings[team2] = { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0 };
+
+      standings[team1].played++;
+      standings[team2].played++;
+      standings[team1].gf += score1;
+      standings[team1].ga += score2;
+      standings[team2].gf += score2;
+      standings[team2].ga += score1;
+
+      if (score1 > score2) {
+        standings[team1].won++;
+        standings[team1].points += 3;
+        standings[team2].lost++;
+      } else if (score1 < score2) {
+        standings[team2].won++;
+        standings[team2].points += 3;
+        standings[team1].lost++;
+      } else {
+        standings[team1].drawn++;
+        standings[team2].drawn++;
+        standings[team1].points += 1;
+        standings[team2].points += 1;
+      }
+    });
+
+    const tableBody = document.querySelector('#standingsTable tbody');
+    const sortedTeams = Object.entries(standings).sort((a, b) => b[1].points - a[1].points);
+
+    if (matches.length === 0) {
+      document.getElementById('standingsTable').style.display = 'none';
+      document.getElementById('noDataMessage').style.display = 'block';
+    } else {
+      for (const [team, stats] of sortedTeams) {
+        const gd = stats.gf - stats.ga;
+        const row = `
+          <tr>
+            <td>${team}</td>
+            <td>${stats.played}</td>
+            <td>${stats.won}</td>
+            <td>${stats.drawn}</td>
+            <td>${stats.lost}</td>
+            <td>${stats.gf}</td>
+            <td>${stats.ga}</td>
+            <td>${gd}</td>
+            <td>${stats.points}</td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = "login.html";
+    }
+
+    function deleteStandings() {
+      if (confirm("Are you sure you want to delete all standings? This action cannot be undone.")) {
+        const allMatches = JSON.parse(localStorage.getItem('matchResults') || '{}');
+        if (allMatches[username]) {
+          delete allMatches[username]; // Remove user's standings
+          localStorage.setItem('matchResults', JSON.stringify(allMatches));
+          location.reload(); // Reload the page to reflect changes
+        }
+      }
+    }
+
+    function downloadStandings() {
+      const csvContent = "data:text/csv;charset=utf-8," 
+        + "Team,Played,Won,Drawn,Lost,GF,GA,GD,Points\n"
+        + sortedTeams.map(([team, stats]) => 
+          `${team},${stats.played},${stats.won},${stats.drawn},${stats.lost},${stats.gf},${stats.ga},${stats.gf - stats.ga},${stats.points}`
+        ).join("\n");
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "standings.csv");
+      document.body.appendChild(link); // Required for FF
+
+      link.click(); // This will download the data file named "standings.csv"
+      document.body.removeChild(link); // Clean up
+    }
+  </script>
+</body>
+</html>
