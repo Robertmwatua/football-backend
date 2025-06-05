@@ -5,87 +5,186 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Add Match Scores</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --primary-color: #21a179;
+      --secondary-color: #0d3b66;
+      --accent-color: #ff5722;
+      --success-color: #4caf50;
+      --info-color: #007bff;
+      --warning-color: #ff9800;
+      --danger-color: #f44336;
+      --light-bg: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(0, 0, 0, 0.2);
+      --text-light: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       padding: 20px;
-      background: linear-gradient(135deg, #0d3b66, #145374);
-      color: #fff;
+      background: linear-gradient(135deg, var(--secondary-color), #145374);
+      color: var(--text-light);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: var(--card-bg);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     h2 {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       text-align: center;
-      color: #21a179;
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 28px;
     }
 
     .match-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
+      gap: 15px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
+      padding: 15px;
+      background-color: var(--light-bg);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .match-row:hover {
+      background-color: rgba(255, 255, 255, 0.15);
     }
 
     select,
     input[type="number"] {
-      padding: 8px 12px;
-      font-size: 14px;
-      border-radius: 5px;
+      padding: 10px 15px;
+      font-size: 15px;
+      border-radius: 8px;
       border: none;
       outline: none;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #333;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     select {
-      min-width: 180px;
+      min-width: 200px;
+      flex-grow: 1;
     }
 
     input[type="number"] {
-      width: 60px;
-      text-align: center;
+  width: 80px;
+  text-align: center;
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Standard */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none; /* Standard */
+  margin: 0;
+}
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 25px;
+      justify-content: center;
     }
 
     .btn {
-      padding: 10px 20px;
-      margin-top: 20px;
+      padding: 12px 25px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
       border: none;
-      border-radius: 5px;
-      transition: background-color 0.3s, transform 0.2s;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn i {
+      font-size: 18px;
     }
 
     .btn-add {
-      background-color: #4caf50;
+      background-color: var(--success-color);
       color: white;
     }
 
     .btn-view {
-      background-color: #007bff;
+      background-color: var(--info-color);
       color: white;
     }
 
     .btn-back {
-      background-color: #ff5722;
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    .btn-clear {
+      background-color: var(--danger-color);
       color: white;
     }
 
     .btn:hover {
-      transform: scale(1.05);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn:active {
+      transform: translateY(0);
     }
 
     .vs {
       font-weight: bold;
       margin: 0 10px;
+      color: var(--text-muted);
+      font-size: 18px;
     }
 
-    @media (max-width: 600px) {
+    .message {
+      text-align: center;
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
       .match-row {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+        align-items: stretch;
+        gap: 10px;
       }
       
       select, input[type="number"] {
@@ -96,25 +195,107 @@
         align-self: center;
         margin: 5px 0;
       }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: var(--secondary-color);
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .modal-btn-confirm {
+      background-color: var(--danger-color);
+      color: white;
+    }
+
+    .modal-btn-cancel {
+      background-color: var(--text-muted);
+      color: white;
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <h2>Enter Match Results</h2>
+  <div class="container">
+    <h2><i class="fas fa-futbol"></i> Enter Match Results</h2>
 
-  <div id="matchesContainer"></div>
+    <div id="matchesContainer"></div>
 
-  <button class="btn btn-add" onclick="addMatchRow()">+ Add Match</button>
-  <br />
-  <button class="btn btn-view" onclick="viewStandings()">View Standings</button>
-  <button class="btn btn-back" onclick="goBack()">Back to Team Selection</button>
+    <div class="btn-container">
+      <button class="btn btn-add" onclick="addMatchRow()">
+        <i class="fas fa-plus"></i> Add Match
+      </button>
+      <button class="btn btn-view" onclick="viewStandings()">
+        <i class="fas fa-table"></i> View Standings
+      </button>
+      <button class="btn btn-clear" onclick="showClearConfirmation()">
+        <i class="fas fa-trash-alt"></i> Clear Scores
+      </button>
+      <button class="btn btn-back" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+    </div>
+  </div>
+
+  <!-- Clear Confirmation Modal -->
+  <div id="clearModal" class="modal">
+    <div class="modal-content">
+      <h3><i class="fas fa-exclamation-triangle"></i> Confirm Clear</h3>
+      <p>Are you sure you want to clear all match scores? This action cannot be undone.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-btn-confirm" onclick="clearScores()">Yes, Clear All</button>
+        <button class="modal-btn modal-btn-cancel" onclick="hideClearConfirmation()">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     const selectedTeams = JSON.parse(localStorage.getItem('selectedTeams') || '[]');
     const matchesContainer = document.getElementById('matchesContainer');
+    const clearModal = document.getElementById('clearModal');
 
     if (selectedTeams.length < 2) {
-      matchesContainer.innerHTML = '<p>Please select at least two teams in the team selection page.</p>';
+      const message = document.createElement('div');
+      message.className = 'message';
+      message.innerHTML = '<p><i class="fas fa-exclamation-circle"></i> Please select at least two teams in the team selection page.</p>';
+      matchesContainer.appendChild(message);
     } else {
       // Add first match row on page load
       addMatchRow();
@@ -134,7 +315,7 @@
           ${createTeamOptions()}
         </select>
         <input type="number" min="0" placeholder="Score" class="score1" />
-        <span class="vs">vs</span>
+        <span class="vs">VS</span>
         <input type="number" min="0" placeholder="Score" class="score2" />
         <select class="team2">
           <option value="" disabled selected>Select Team 2</option>
@@ -146,65 +327,93 @@
     }
 
     function viewStandings() {
-  const results = [];
-  const rows = document.querySelectorAll('.match-row');
+      const results = [];
+      const rows = document.querySelectorAll('.match-row');
 
-  for (let row of rows) {
-    const team1Select = row.querySelector('.team1');
-    const team2Select = row.querySelector('.team2');
-    const team1 = team1Select.value;
-    const team2 = team2Select.value;
-    const score1 = parseInt(row.querySelector('.score1').value);
-    const score2 = parseInt(row.querySelector('.score2').value);
+      for (let row of rows) {
+        const team1Select = row.querySelector('.team1');
+        const team2Select = row.querySelector('.team2');
+        const team1 = team1Select.value;
+        const team2 = team2Select.value;
+        const score1 = parseInt(row.querySelector('.score1').value);
+        const score2 = parseInt(row.querySelector('.score2').value);
 
-    if (!team1 || !team2) {
-      alert('Please select both teams for each match.');
-      return;
+        if (!team1 || !team2) {
+          alert('Please select both teams for each match.');
+          return;
+        }
+
+        if (team1 === team2) {
+          alert('Please select two different teams for each match.');
+          return;
+        }
+
+        if (isNaN(score1)) {
+          alert(`Please enter a valid score for ${team1}.`);
+          return;
+        }
+
+        if (isNaN(score2)) {
+          alert(`Please enter a valid score for ${team2}.`);
+          return;
+        }
+
+        results.push({ team1, team2, score1, score2 });
+      }
+
+      if (results.length === 0) {
+        alert('Please add at least one match result.');
+        return;
+      }
+
+      const username = localStorage.getItem('loggedInUser');
+      if (!username) {
+        alert('No logged-in user found. Please log in first.');
+        return;
+      }
+
+      let allMatches = JSON.parse(localStorage.getItem('matchResults') || '{}');
+
+      if (!allMatches[username]) {
+        allMatches[username] = [];
+      }
+
+      allMatches[username] = allMatches[username].concat(results);
+
+      localStorage.setItem('matchResults', JSON.stringify(allMatches));
+
+      window.location.href = 'standings.html';
     }
 
-    if (team1 === team2) {
-      alert('Please select two different teams for each match.');
-      return;
-    }
-
-    if (isNaN(score1)) {
-      alert(`Please enter a valid score for ${team1}.`);
-      return;
-    }
-
-    if (isNaN(score2)) {
-      alert(`Please enter a valid score for ${team2}.`);
-      return;
-    }
-
-    results.push({ team1, team2, score1, score2 });
-  }
-
-  if (results.length === 0) {
-    alert('Please add at least one match result.');
-    return;
-  }
-
-  const username = localStorage.getItem('loggedInUser');
-  if (!username) {
-    alert('No logged-in user found. Please log in first.');
-    return;
-  }
-
-  let allMatches = JSON.parse(localStorage.getItem('matchResults') || '{}');
-
-  if (!allMatches[username]) {
-    allMatches[username] = [];
-  }
-
-  allMatches[username] = allMatches[username].concat(results);
-
-  localStorage.setItem('matchResults', JSON.stringify(allMatches));
-
-  window.location.href = 'standings.html';
-}
     function goBack() {
       window.location.href = 'add-match.html';
+    }
+
+    function showClearConfirmation() {
+      clearModal.style.display = 'flex';
+    }
+
+    function hideClearConfirmation() {
+      clearModal.style.display = 'none';
+    }
+
+    function clearScores() {
+      // Clear all match rows
+      matchesContainer.innerHTML = '';
+      
+      // Add a fresh match row
+      addMatchRow();
+      
+      // Hide the modal
+      hideClearConfirmation();
+      
+      // Optionally clear from localStorage if needed
+      // const username = localStorage.getItem('loggedInUser');
+      // if (username) {
+      //   let allMatches = JSON.parse(localStorage.getItem('matchResults') || '{}');
+      //   allMatches[username] = [];
+      //   localStorage.setItem('matchResults', JSON.stringify(allMatches));
+      // }
     }
   </script>
 </body>
