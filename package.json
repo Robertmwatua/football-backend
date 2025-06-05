@@ -2,7 +2,7 @@
   "name": "football-backend",
   "version": "1.0.0",
   "description": "Backend for Football League Manager with authentication, match tracking, and scoring.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -29,6 +29,7 @@
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.0"
   }
 }
