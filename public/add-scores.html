@@ -25,15 +25,26 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 15px;
+      flex-wrap: wrap;
     }
 
     select,
     input[type="number"] {
-      padding: 5px;
+      padding: 8px 12px;
       font-size: 14px;
       border-radius: 5px;
       border: none;
       outline: none;
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    select {
+      min-width: 180px;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      text-align: center;
     }
 
     .btn {
@@ -64,6 +75,28 @@
     .btn:hover {
       transform: scale(1.05);
     }
+
+    .vs {
+      font-weight: bold;
+      margin: 0 10px;
+    }
+
+    @media (max-width: 600px) {
+      .match-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      
+      select, input[type="number"] {
+        width: 100%;
+      }
+      
+      .vs {
+        align-self: center;
+        margin: 5px 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -74,21 +107,21 @@
   <button class="btn btn-add" onclick="addMatchRow()">+ Add Match</button>
   <br />
   <button class="btn btn-view" onclick="viewStandings()">View Standings</button>
-  <button class="btn btn-back" onclick="goBack()">Back to Add Match</button>
+  <button class="btn btn-back" onclick="goBack()">Back to Team Selection</button>
 
   <script>
     const selectedTeams = JSON.parse(localStorage.getItem('selectedTeams') || '[]');
     const matchesContainer = document.getElementById('matchesContainer');
 
     if (selectedTeams.length < 2) {
-      matchesContainer.innerHTML = '<p>Please select at least two teams.</p>';
+      matchesContainer.innerHTML = '<p>Please select at least two teams in the team selection page.</p>';
     } else {
       // Add first match row on page load
       addMatchRow();
     }
 
     function createTeamOptions() {
-      return selectedTeams.map(team => `<option value="${team}">${team}</option>`).join('');
+      return selectedTeams.map(team => `<option value="${team.name}">${team.name}</option>`).join('');
     }
 
     function addMatchRow() {
@@ -97,14 +130,14 @@
 
       row.innerHTML = `
         <select class="team1">
-          <option disabled selected>Select Team 1</option>
+          <option value="" disabled selected>Select Team 1</option>
           ${createTeamOptions()}
         </select>
         <input type="number" min="0" placeholder="Score" class="score1" />
-        <span>vs</span>
+        <span class="vs">vs</span>
         <input type="number" min="0" placeholder="Score" class="score2" />
         <select class="team2">
-          <option disabled selected>Select Team 2</option>
+          <option value="" disabled selected>Select Team 2</option>
           ${createTeamOptions()}
         </select>
       `;
@@ -113,52 +146,63 @@
     }
 
     function viewStandings() {
-      const results = [];
-      const rows = document.querySelectorAll('.match-row');
+  const results = [];
+  const rows = document.querySelectorAll('.match-row');
 
-      for (let row of rows) {
-        const team1 = row.querySelector('.team1').value;
-        const team2 = row.querySelector('.team2').value;
-        const score1 = parseInt(row.querySelector('.score1').value);
-        const score2 = parseInt(row.querySelector('.score2').value);
+  for (let row of rows) {
+    const team1Select = row.querySelector('.team1');
+    const team2Select = row.querySelector('.team2');
+    const team1 = team1Select.value;
+    const team2 = team2Select.value;
+    const score1 = parseInt(row.querySelector('.score1').value);
+    const score2 = parseInt(row.querySelector('.score2').value);
 
-        if (!team1 || !team2) {
-          alert('Please select both teams for each match.');
-          return;
-        }
-
-        if (team1 === team2) {
-          alert('Please select two different teams for each match.');
-          return;
-        }
-
-        if (isNaN(score1) || isNaN(score2)) {
-          alert('Please enter valid scores for each match.');
-          return;
-        }
-
-        results.push({ team1, team2, score1, score2 });
-      }
-
-      const username = localStorage.getItem('loggedInUser'); // Removed space here
-      if (!username) {
-        alert('No logged-in user found. Please log in first.');
-        return;
-      }
-
-      let allMatches = JSON.parse(localStorage.getItem('matchResults') || '{}');
-
-      if (!allMatches[username]) {
-        allMatches[username] = [];
-      }
-
-      allMatches[username] = allMatches[username].concat(results);
-
-      localStorage.setItem('matchResults', JSON.stringify(allMatches));
-
-      window.location.href = 'standings.html';
+    if (!team1 || !team2) {
+      alert('Please select both teams for each match.');
+      return;
     }
 
+    if (team1 === team2) {
+      alert('Please select two different teams for each match.');
+      return;
+    }
+
+    if (isNaN(score1)) {
+      alert(`Please enter a valid score for ${team1}.`);
+      return;
+    }
+
+    if (isNaN(score2)) {
+      alert(`Please enter a valid score for ${team2}.`);
+      return;
+    }
+
+    results.push({ team1, team2, score1, score2 });
+  }
+
+  if (results.length === 0) {
+    alert('Please add at least one match result.');
+    return;
+  }
+
+  const username = localStorage.getItem('loggedInUser');
+  if (!username) {
+    alert('No logged-in user found. Please log in first.');
+    return;
+  }
+
+  let allMatches = JSON.parse(localStorage.getItem('matchResults') || '{}');
+
+  if (!allMatches[username]) {
+    allMatches[username] = [];
+  }
+
+  allMatches[username] = allMatches[username].concat(results);
+
+  localStorage.setItem('matchResults', JSON.stringify(allMatches));
+
+  window.location.href = 'standings.html';
+}
     function goBack() {
       window.location.href = 'add-match.html';
     }
