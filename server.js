@@ -52,6 +52,18 @@ app.use(express.static(path.join(__dirname, 'public'), {
   }
 }));
 
+// //Testing 
+// app.get('/test-db', async (req, res) => {
+//   try {
+//     const [rows] = await db.execute('SELECT 1 + 1 AS solution');
+//     res.json({ result: rows[0].solution });
+//   } catch (error) {
+//     console.error('❌ Test DB Error:', error);
+//     res.status(500).json({ error: 'Database connection failed' });
+//   }
+// });
+
+
 // ✅ Serve signup.html at root
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'signup.html'));
