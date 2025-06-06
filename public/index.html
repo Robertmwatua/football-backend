@@ -9,29 +9,38 @@
       window.location.href = "login.html";
     }
   </script>
-  
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Football League Manager</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/53/53283.png" type="image/png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link
+    rel="icon"
+    href="https://cdn-icons-png.flaticon.com/512/53/53283.png"
+    type="image/png"
+  />
   <style>
     /* Reset and base */
     :root {
-      --primary: #ffd700;
-      --primary-dark: #e6c200;
-      --secondary: #1e3c72;
-      --secondary-dark: #0b1d51;
-      --dark: #121f3e;
-      --light: #f0f0f0;
-      --success: #4caf50;
-      --danger: #f44336;
-      --warning: #ff9800;
-      --info: #2196f3;
-      --field-green: #2e8b57;
+      --primary: #000000;
+      --primary-light: #222222;
+      --primary-hover: #444444;
+      --gray-base: #6b7280;
+      --gray-light: #e5e7eb;
+      --white: #ffffff;
+      --shadow-light: rgba(0, 0, 0, 0.05);
+      --shadow-hover: rgba(0, 0, 0, 0.12);
+      --border-radius: 0.75rem;
+      --transition-speed: 0.3s;
     }
-    
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -40,23 +49,39 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-      margin: 0;
-      background: linear-gradient(135deg, var(--secondary-dark), var(--secondary));
-      color: var(--light);
+      background: var(--white);
+      color: var(--gray-base);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-size: 18px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      width: 100%;
     }
 
     /* Header Styles */
     header {
-      background-color: var(--dark);
-      padding: 1.5rem 2rem;
+      background-color: var(--white);
+      padding: 1rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 1px 4px var(--shadow-light);
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -65,224 +90,213 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .logo img {
-      height: 50px;
+      height: 40px;
       width: auto;
+      filter: none;
     }
 
     header h1 {
       font-weight: 800;
-      font-size: 1.8rem;
+      font-size: 2.5rem;
       color: var(--primary);
-      letter-spacing: 3px;
-      margin: 0;
       user-select: none;
-      text-shadow: 0 0 8px var(--primary-cc);
+      letter-spacing: 0.07em;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
     }
 
     nav ul {
       list-style: none;
       display: flex;
       gap: 1.5rem;
-      margin: 0;
-      padding: 0;
     }
 
     nav a {
-      color: var(--light);
-      text-decoration: none;
+      color: var(--gray-base);
       font-weight: 600;
-      font-size: 1.1rem;
-      padding: 0.75rem 1.25rem;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      position: relative;
+      font-size: 1.125rem;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      transition: background var(--transition-speed), color var(--transition-speed),
+        box-shadow var(--transition-speed), transform var(--transition-speed);
       display: flex;
       align-items: center;
       gap: 0.5rem;
+    }
+
+    nav a i {
+      font-size: 1.2rem;
+      color: var(--gray-base);
+      transition: color var(--transition-speed);
     }
 
     nav a:hover,
     nav a:focus,
     nav a.active {
       background-color: var(--primary);
-      color: #222;
-      outline: none;
-      box-shadow: 0 0 10px var(--primary-dd);
+      color: var(--white);
+      outline-offset: 2px;
+      outline: 3px solid var(--gray-light);
+      box-shadow: 0 4px 8px var(--shadow-hover);
       transform: scale(1.05);
     }
 
-    nav a i {
-      font-size: 1.2rem;
+    nav a:hover i,
+    nav a:focus i,
+    nav a.active i {
+      color: var(--white);
     }
 
+    /* Mobile Menu Button */
     .mobile-menu-btn {
       display: none;
       background: none;
       border: none;
-      color: var(--light);
-      font-size: 1.5rem;
+      color: var(--primary);
+      font-size: 1.75rem;
       cursor: pointer;
+      transition: color var(--transition-speed);
     }
 
-    /* Hero Section */
+    .mobile-menu-btn:hover,
+    .mobile-menu-btn:focus {
+      color: var(--primary-hover);
+    }
+
+    /* Hero Section with Background Image and Overlay */
     .hero {
-      flex-grow: 1;
+      position: relative;
       background: url("https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1350&q=80") no-repeat center center/cover;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 4rem 1rem;
-      position: relative;
-      color: var(--primary);
-      text-shadow: 0 0 12px rgba(0,0,0,0.8);
+      padding: 6rem 1rem 7rem;
+      color: var(--white);
+      user-select: none;
       min-height: 70vh;
+      overflow: hidden;
+      border-radius: var(--border-radius);
+      margin: 2rem 1rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
     }
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.45);
       z-index: 0;
-      border-radius: 0 0 40% 40% / 40%;
+      border-radius: var(--border-radius);
     }
 
     .hero-content {
       position: relative;
-      z-index: 1;
-      max-width: 800px;
+      max-width: 700px;
       margin: 0 auto;
+      z-index: 1;
     }
 
     .hero-content h2 {
+      font-weight: 800;
       font-size: 3.5rem;
       margin-bottom: 1.5rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-      line-height: 1.2;
+      color: var(--white);
+      line-height: 1.1;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
     }
 
     .hero-content p {
-      font-size: 1.4rem;
-      margin-bottom: 2.5rem;
-      line-height: 1.6;
-      font-weight: 500;
-    }
-
-    .btn {
-      background-color: var(--primary);
-      padding: 1rem 2rem;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #222;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 0 10px var(--primary-bb);
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn:hover {
-      background-color: var(--primary-dark);
-      transform: scale(1.05);
-      box-shadow: 0 0 15px var(--primary);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-    }
-
-    .btn-outline:hover {
-      background: var(--primary);
-      color: #222;
-    }
-
-    .btn i {
-      font-size: 1.2rem;
+      font-weight: 400;
+      font-size: 1.25rem;
+      color: var(--white);
+      margin-bottom: 3rem;
+      line-height: 1.5;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
     }
 
     .btn-group {
       display: flex;
-      gap: 1rem;
+      gap: 1.25rem;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    /* Features Section */
-    .features {
-      background-color: rgba(0, 0, 0, 0.15);
-      padding: 3rem 1rem 5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-      max-width: 1200px;
-      margin: -4rem auto 2rem;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #000000cc;
-      color: #fff;
-    }
-
-    .feature-card {
-      background: rgba(255, 215, 0, 0.15);
-      flex: 1 1 250px;
-      max-width: 280px;
-      padding: 2rem 1.5rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgb(255 215 0 / 0.3);
-      transition: all 0.3s ease;
-      text-align: center;
-      cursor: default;
-      color: var(--light);
-      display: flex;
-      flex-direction: column;
+    .btn {
+      font-weight: 700;
+      font-size: 1.125rem;
+      padding: 1rem 2.5rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
+      gap: 0.5rem;
+      transition: background var(--transition-speed), color var(--transition-speed),
+        transform var(--transition-speed), box-shadow var(--transition-speed);
+      user-select: none;
+      border: none;
+      text-align: center;
+      text-decoration: none;
+      line-height: 1;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
 
-    .feature-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 8px 25px rgb(255 215 0 / 0.6);
-      background: var(--primary);
-      color: #111;
+    .btn i {
+      font-size: 1.25rem;
+      line-height: 1;
     }
 
-    .feature-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+    /* Primary CTA Button black bg, white text */
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background-color: var(--primary-hover);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.35);
+      transform: scale(1.05);
+      outline-offset: 2px;
+      outline: 3px solid var(--gray-light);
+    }
+
+    /* Secondary button: transparent background, white border and text */
+    .btn-secondary {
+      background-color: transparent;
+      border: 2px solid var(--white);
+      color: var(--white);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+      background-color: var(--white);
       color: var(--primary);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.35);
+      transform: scale(1.05);
+      border-color: var(--white);
+      outline-offset: 2px;
+      outline: 3px solid var(--gray-light);
     }
 
-    .feature-card:hover .feature-icon {
-      color: #222;
-    }
-
-    .feature-card h3 {
-      margin-bottom: 1rem;
-      font-size: 1.6rem;
-    }
-
-    .feature-card p {
-      font-size: 1rem;
-      line-height: 1.4;
-    }
+    /* Features removed as requested */
 
     /* Stats Section */
     .stats {
-      padding: 4rem 1rem;
-      background: var(--dark);
+      padding: 5rem 1rem 6rem;
+      background-color: var(--white);
       text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
 
     .stats-container {
@@ -291,9 +305,11 @@
     }
 
     .stats h2 {
-      font-size: 2.5rem;
+      font-size: 3rem;
+      font-weight: 800;
       margin-bottom: 3rem;
       color: var(--primary);
+      user-select: none;
     }
 
     .stats-grid {
@@ -303,82 +319,97 @@
     }
 
     .stat-card {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 2rem;
-      border-radius: 10px;
-      transition: transform 0.3s ease;
+      background: var(--white);
+      padding: 2.5rem 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 6px var(--shadow-light);
+      transition: box-shadow var(--transition-speed), transform var(--transition-speed);
+      user-select: none;
     }
 
-    .stat-card:hover {
+    .stat-card:hover,
+    .stat-card:focus-within {
+      box-shadow: 0 6px 16px var(--shadow-hover);
       transform: translateY(-5px);
-      background: rgba(255, 215, 0, 0.2);
+      outline-offset: 2px;
+      outline: 3px solid var(--gray-light);
     }
 
     .stat-number {
-      font-size: 3rem;
-      font-weight: 700;
+      font-size: 3.5rem;
+      font-weight: 800;
       color: var(--primary);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
+      user-select: all;
     }
 
     .stat-label {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 600;
+      color: var(--gray-base);
     }
 
     /* Football Icon Section */
     .football-icon-section {
-      padding: 4rem 1rem;
-      background: var(--field-green);
+      padding: 6rem 1rem;
+      background-color: var(--white);
       text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .football-icon-container {
       max-width: 1200px;
-      margin: 0 auto;
+      margin: 3rem auto 6rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 6px var(--shadow-light);
+      user-select: none;
     }
 
     .football-icon-section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
       color: var(--primary);
     }
 
     .football-icon {
-      font-size: 10rem;
-      color: white;
-      animation: bounce 2s infinite alternate;
-      text-shadow: 0 0 20px rgba(0,0,0,0.5);
+      font-size: 5.5rem;
+      color: var(--primary);
+      margin: 0 auto;
+      display: block;
+      animation: bounce 3s ease-in-out infinite alternate;
     }
 
     @keyframes bounce {
-      from { transform: translateY(0) rotate(0deg); }
-      to { transform: translateY(-20px) rotate(20deg); }
+      from {
+        transform: translateY(0) rotate(0deg);
+      }
+      to {
+        transform: translateY(-15px) rotate(15deg);
+      }
     }
 
     .football-icon-text {
-      font-size: 1.2rem;
-      max-width: 800px;
-      margin: 2rem auto;
-      color: white;
+      margin-top: 1.75rem;
+      font-size: 1.125rem;
+      line-height: 1.5;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 400;
+      color: var(--gray-base);
     }
 
     /* Testimonials */
     .testimonials {
-      padding: 4rem 1rem;
-      background: linear-gradient(rgba(18, 31, 62, 0.9), rgba(18, 31, 62, 0.9)), 
-                  url('https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1350&q=80') center/cover;
-    }
-
-    .testimonials-container {
+      padding: 5rem 1rem 7rem;
+      background: var(--white);
       max-width: 1200px;
-      margin: 0 auto;
+      margin: 0 auto 3rem auto;
+      border-radius: var(--border-radius);
+      box-shadow: 0 1px 6px var(--shadow-light);
+      user-select: none;
     }
 
     .testimonials h2 {
-      font-size: 2.5rem;
+      font-size: 3rem;
+      font-weight: 800;
       text-align: center;
       margin-bottom: 3rem;
       color: var(--primary);
@@ -390,20 +421,35 @@
       overflow-x: auto;
       padding-bottom: 1rem;
       scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
     }
 
     .testimonial-card {
       min-width: 300px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 2rem;
-      border-radius: 10px;
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: 0 1px 6px var(--shadow-light);
+      padding: 1.75rem 2rem;
       scroll-snap-align: start;
-      backdrop-filter: blur(5px);
+      outline-offset: 2px;
+      outline: none;
+      transition: box-shadow var(--transition-speed), transform var(--transition-speed);
+      user-select: text;
+    }
+
+    .testimonial-card:focus,
+    .testimonial-card:hover {
+      box-shadow: 0 5px 16px var(--shadow-hover);
+      transform: translateY(-6px);
+      outline: 3px solid var(--gray-light);
+      cursor: pointer;
     }
 
     .testimonial-text {
       font-style: italic;
+      font-size: 1rem;
       margin-bottom: 1.5rem;
+      color: var(--gray-base);
       position: relative;
     }
 
@@ -412,7 +458,19 @@
       content: '"';
       font-size: 2rem;
       color: var(--primary);
-      opacity: 0.5;
+      opacity: 0.15;
+      position: absolute;
+      user-select: none;
+    }
+
+    .testimonial-text::before {
+      top: -0.5rem;
+      left: -0.5rem;
+    }
+
+    .testimonial-text::after {
+      bottom: -0.5rem;
+      right: -0.5rem;
     }
 
     .testimonial-author {
@@ -427,245 +485,115 @@
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--primary);
+      flex-shrink: 0;
     }
 
     .author-info h4 {
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--primary);
     }
 
     .author-info p {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    /* Pricing Section */
-    .pricing {
-      padding: 4rem 1rem;
-      background: var(--secondary-dark);
-      text-align: center;
-    }
-
-    .pricing-container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .pricing h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-    }
-
-    .pricing p.subtitle {
-      font-size: 1.2rem;
-      margin-bottom: 3rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .pricing-cards {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .pricing-card {
-      background: var(--dark);
-      border-radius: 10px;
-      padding: 2rem;
-      width: 300px;
-      transition: transform 0.3s ease;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-    }
-
-    .pricing-card.popular {
-      border: 2px solid var(--primary);
-      transform: scale(1.05);
-      position: relative;
-    }
-
-    .popular-badge {
-      position: absolute;
-      top: -15px;
-      right: 20px;
-      background: var(--primary);
-      color: #222;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 0.8rem;
-    }
-
-    .pricing-card h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-    }
-
-    .price {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-
-    .price span {
-      font-size: 1rem;
-      opacity: 0.8;
-    }
-
-    .pricing-features {
-      list-style: none;
-      margin-bottom: 2rem;
-      text-align: left;
-    }
-
-    .pricing-features li {
-      margin-bottom: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .pricing-features li i {
-      color: var(--primary);
+      font-size: 0.875rem;
+      color: var(--gray-base);
+      opacity: 0.9;
+      line-height: 1.3;
     }
 
     /* Newsletter */
     .newsletter {
-      padding: 4rem 1rem;
-      background: var(--dark);
+      padding: 6rem 1rem 7rem;
+      background-color: var(--white);
       text-align: center;
-    }
-
-    .newsletter-container {
       max-width: 600px;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 6px var(--shadow-light);
+      user-select: none;
     }
 
     .newsletter h2 {
-      font-size: 2.5rem;
+      font-size: 3rem;
+      font-weight: 800;
       margin-bottom: 1rem;
       color: var(--primary);
     }
 
     .newsletter p {
+      font-size: 1.125rem;
+      font-weight: 400;
+      color: var(--gray-base);
       margin-bottom: 2rem;
-      font-size: 1.1rem;
+      line-height: 1.4;
     }
 
     .newsletter-form {
       display: flex;
-      max-width: 500px;
-      margin: 0 auto;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .newsletter-form input {
-      flex: 1;
-      padding: 1rem;
-      border: none;
-      border-radius: 8px 0 0 8px;
+      flex: 1 1 auto;
+      padding: 1rem 1.25rem;
       font-size: 1rem;
+      border: 1.5px solid var(--gray-light);
+      border-right: none;
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+      color: var(--primary);
+      transition: border-color var(--transition-speed);
+    }
+
+    .newsletter-form input::placeholder {
+      color: var(--gray-base);
+      font-weight: 400;
+    }
+
+    .newsletter-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px var(--shadow-hover);
     }
 
     .newsletter-form button {
-      padding: 1rem 1.5rem;
-      background: var(--primary);
-      color: #222;
+      padding: 1rem 1.75rem;
+      background-color: var(--primary);
+      color: var(--white);
       border: none;
-      border-radius: 0 8px 8px 0;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .newsletter-form button:hover {
-      background: var(--primary-dark);
-    }
-
-    /* Auth Forms */
-    .auth-section {
-      padding: 4rem 1rem;
-      background: var(--secondary-dark);
-      text-align: center;
-    }
-
-    .auth-container {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .auth-form-container {
-      flex: 1;
-      min-width: 300px;
-      background: var(--dark);
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
-
-    .auth-form-container h2 {
-      color: var(--primary);
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
-    }
-
-    .auth-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .auth-form input {
-      padding: 1rem;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.1);
-      color: white;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      font-weight: 700;
       font-size: 1rem;
-    }
-
-    .auth-form input::placeholder {
-      color: rgba(255,255,255,0.7);
-    }
-
-    .auth-form button {
-      padding: 1rem;
-      background: var(--primary);
-      color: #222;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
+      letter-spacing: 0.03em;
       cursor: pointer;
-      transition: background 0.3s ease;
-      font-size: 1rem;
+      transition: background var(--transition-speed), box-shadow var(--transition-speed);
+      user-select: none;
+      box-shadow: 0 4px 8px var(--shadow-light);
     }
 
-    .auth-form button:hover {
-      background: var(--primary-dark);
-    }
-
-    #message {
-      margin-top: 1rem;
-      font-size: 0.9rem;
+    .newsletter-form button:hover,
+    .newsletter-form button:focus {
+      background-color: var(--primary-hover);
+      box-shadow: 0 6px 14px var(--shadow-hover);
     }
 
     /* Footer */
     footer {
-      background-color: #0a1428;
-      padding: 3rem 1rem 1rem;
+      background-color: var(--white);
+      padding: 3rem 1rem 4rem;
+      box-shadow: 0 -1px 8px var(--shadow-light);
+      user-select: none;
     }
 
     .footer-container {
       max-width: 1200px;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 2rem;
     }
 
@@ -677,17 +605,23 @@
     }
 
     .footer-logo img {
-      height: 40px;
+      height: 36px;
+      width: auto;
+      filter: none;
     }
 
     .footer-logo h3 {
+      font-size: 1.375rem;
+      font-weight: 800;
       color: var(--primary);
-      font-size: 1.5rem;
     }
 
     .footer-about p {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--gray-base);
       margin-bottom: 1.5rem;
-      opacity: 0.8;
+      line-height: 1.4;
     }
 
     .social-links {
@@ -696,72 +630,75 @@
     }
 
     .social-links a {
-      color: var(--light);
-      background: rgba(255, 255, 255, 0.1);
-      width: 40px;
-      height: 40px;
+      color: var(--gray-base);
+      background: var(--gray-light);
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      transition: background var(--transition-speed), color var(--transition-speed),
+        transform var(--transition-speed);
     }
 
-    .social-links a:hover {
+    .social-links a:hover,
+    .social-links a:focus {
       background: var(--primary);
-      color: #222;
-      transform: translateY(-3px);
+      color: var(--white);
+      transform: translateY(-4px);
+      outline-offset: 2px;
+      outline: 3px solid var(--gray-light);
     }
 
-    .footer-links h4 {
+    .footer-links {
+      /* Removed features and resources sections as requested */
+    }
+
+    .footer-contact h4 {
+      font-weight: 700;
       color: var(--primary);
-      margin-bottom: 1.5rem;
-      font-size: 1.2rem;
-    }
-
-    .footer-links ul {
-      list-style: none;
-    }
-
-    .footer-links li {
-      margin-bottom: 0.8rem;
-    }
-
-    .footer-links a {
-      color: var(--light);
-      text-decoration: none;
-      opacity: 0.8;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .footer-links a:hover {
-      opacity: 1;
-      color: var(--primary);
-      padding-left: 5px;
-    }
-
-    .footer-links a i {
-      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
     }
 
     .footer-contact p {
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      color: var(--gray-base);
+      font-weight: 500;
       margin-bottom: 1rem;
-      opacity: 0.8;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .footer-contact p i {
+      font-size: 1rem;
+      color: var(--primary);
+      min-width: 20px;
     }
 
     .footer-bottom {
       text-align: center;
       padding-top: 2rem;
       margin-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 0.9rem;
-      opacity: 0.7;
+      font-size: 0.875rem;
+      color: var(--gray-base);
+      font-weight: 500;
+      user-select: text;
+    }
+
+    .footer-bottom a {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .footer-bottom a:hover,
+    .footer-bottom a:focus {
+      text-decoration: underline;
+      outline-offset: 2px;
+      outline: 3px solid var(--gray-light);
     }
 
     /* Back to top button */
@@ -770,20 +707,22 @@
       bottom: 2rem;
       right: 2rem;
       background: var(--primary);
-      color: #222;
-      width: 50px;
-      height: 50px;
+      color: var(--white);
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      font-size: 1.25rem;
+      box-shadow: 0 2px 8px var(--shadow-light);
       cursor: pointer;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: opacity var(--transition-speed), visibility var(--transition-speed),
+        transform var(--transition-speed);
       z-index: 999;
+      user-select: none;
     }
 
     .back-to-top.active {
@@ -791,9 +730,12 @@
       visibility: visible;
     }
 
-    .back-to-top:hover {
-      transform: translateY(-5px);
-      background: var(--primary-dark);
+    .back-to-top:hover,
+    .back-to-top:focus {
+      transform: translateY(-4px);
+      background-color: var(--primary-hover);
+      outline-offset: 2px;
+      outline: 3px solid var(--gray-light);
     }
 
     /* Modal */
@@ -803,14 +745,15 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(255, 255, 255, 0.85);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 1001;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: opacity var(--transition-speed), visibility var(--transition-speed);
+      user-select: none;
     }
 
     .modal.active {
@@ -819,15 +762,16 @@
     }
 
     .modal-content {
-      background: var(--dark);
-      padding: 2rem;
-      border-radius: 10px;
+      background: var(--white);
+      padding: 2.5rem 2rem;
+      border-radius: var(--border-radius);
       max-width: 500px;
       width: 90%;
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.12);
+      user-select: text;
     }
 
     .modal-close {
@@ -836,50 +780,59 @@
       right: 1rem;
       background: none;
       border: none;
-      color: var(--light);
+      color: var(--primary);
       font-size: 1.5rem;
       cursor: pointer;
-      transition: color 0.3s ease;
+      transition: color var(--transition-speed);
     }
 
-    .modal-close:hover {
-      color: var(--primary);
+    .modal-close:hover,
+    .modal-close:focus {
+      color: var(--primary-hover);
     }
 
     .modal h3 {
       color: var(--primary);
       margin-bottom: 1.5rem;
-      font-size: 1.8rem;
+      font-size: 1.75rem;
+      font-weight: 700;
     }
 
     /* Responsive Styles */
+    @media (max-width: 1024px) {
+      .hero-content h2 {
+        font-size: 2.6rem;
+      }
+    }
+
     @media (max-width: 768px) {
       header {
-        flex-direction: column;
+        flex-wrap: wrap;
         padding: 1rem;
-      }
-
-      .logo {
-        margin-bottom: 1rem;
       }
 
       nav ul {
         flex-direction: column;
-        gap: 0.5rem;
         width: 100%;
+        margin-top: 0.75rem;
+        border-radius: var(--border-radius);
+        background-color: var(--white);
+        box-shadow: 0 4px 12px var(--shadow-light);
+        display: none;
+      }
+
+      nav ul.open {
+        display: flex;
       }
 
       nav a {
+        padding: 0.75rem 1rem;
+        font-size: 1.125rem;
         justify-content: center;
-        padding: 0.5rem;
       }
 
-      .hero-content h2 {
-        font-size: 2.5rem;
-      }
-
-      .hero-content p {
-        font-size: 1.2rem;
+      .mobile-menu-btn {
+        display: inline-block;
       }
 
       .btn-group {
@@ -889,19 +842,17 @@
 
       .newsletter-form {
         flex-direction: column;
+        max-width: 100%;
       }
 
       .newsletter-form input {
-        border-radius: 8px;
-        margin-bottom: 0.5rem;
+        border-radius: var(--border-radius);
+        margin-bottom: 0.75rem;
+        border-right: 1.5px solid var(--gray-light);
       }
 
       .newsletter-form button {
-        border-radius: 8px;
-      }
-
-      .pricing-card.popular {
-        transform: none;
+        border-radius: var(--border-radius);
       }
     }
 
@@ -911,326 +862,319 @@
       }
 
       .hero-content p {
-        font-size: 1.1rem;
-      }
-
-      .features {
-        padding: 2rem 1rem 3rem;
-        margin: -2rem auto 1rem;
-      }
-
-      .stat-card {
-        padding: 1.5rem;
+        font-size: 1rem;
       }
 
       .stat-number {
-        font-size: 2rem;
+        font-size: 2.5rem;
       }
 
       .football-icon {
-        font-size: 6rem;
+        font-size: 4.5rem;
       }
     }
   </style>
 </head>
 
-<div id="auth-status" style="position: absolute; top: 20px; right: 20px;">
-  <span id="username-display"></span>
-  <button id="logout-btn" style="display: none;">Logout</button>
-</div>
-
 <body>
-  <script>
-    // Simple auth check - runs on every page load
-    const protectedPaths = []; // Add your protected paths
-    
-    if (protectedPaths.includes(window.location.pathname)) {
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        window.location.href = '/login.html';
-      }
-    }
-  </script>
-  <header>
-    <div class="logo">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png" alt="Football League Manager Logo" />
-      <h1>Football League Manager</h1>
+  <div id="auth-status" style="position: absolute; top: 20px; right: 20px;">
+    <span id="username-display" aria-live="polite"></span>
+    <button id="logout-btn" style="display: none;">Logout</button>
+  </div>
+
+  <header role="banner">
+    <div class="container">
+      <div class="logo">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/53/53283.png"
+          alt="Football League Manager Logo"
+          width="40"
+          height="40"
+          aria-hidden="true"
+          focusable="false"
+        />
+        <h1>Football League Manager</h1>
+      </div>
+      <button
+        class="mobile-menu-btn"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+      >
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+      <nav
+        id="primary-navigation"
+        role="navigation"
+        aria-label="Primary Navigation"
+        class="primary-nav"
+      >
+        <ul>
+          <li>
+            <a href="add-match.html" class="active">
+              <i class="fas fa-plus-circle" aria-hidden="true"></i> Record Match
+            </a>
+          </li>
+          <li>
+            <a href="standings.html">
+              <i class="fas fa-trophy" aria-hidden="true"></i> Standings
+            </a>
+          </li>
+          <li>
+            <a href="add-match.html">
+              <i class="fas fa-calendar-alt" aria-hidden="true"></i> Matches
+            </a>
+          </li>
+          <li>
+            <a href="about-me.html">
+              <i class="fas fa-chart-bar" aria-hidden="true"></i> Robert
+            </a>
+          </li>
+          <li>
+            <a href="#" id="login-btn">
+              <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
-    <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
-      <i class="fas fa-bars"></i>
-    </button>
-    <nav role="navigation" aria-label="Primary Navigation">
-      <ul>
-        <li><a href="add-match.html" class="active"><i class="fas fa-plus-circle"></i> Record Match</a></li>
-        <li><a href="standings.html"><i class="fas fa-trophy"></i> Standings</a></li>
-        <li><a href="add-match.html"><i class="fas fa-calendar-alt"></i> Matches</a></li>
-        <li><a href="about-me.html"><i class="fas fa-chart-bar"></i> Robert</a></li>
-        <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Logout</a></li>
-      </ul>
-    </nav>
   </header>
 
-  <section class="hero" role="banner" aria-label="Welcome Section">
-    <div class="hero-content">
-      <h2>Ultimate Football League Management Solution</h2>
-      <p>Create, manage, and analyze football leagues with our powerful tools. Perfect for clubs, schools, and amateur leagues.</p>
-      <div class="btn-group">
-        <a href="add-match.html" class="btn" role="button"><i class="fas fa-play"></i> Get Started</a>
-        <a href="#features" class="btn btn-outline" role="button"><i class="fas fa-star"></i> Explore Features</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="features" aria-label="Features" id="features">
-    <article class="feature-card" tabindex="0">
-      <div class="feature-icon"><i class="fas fa-trophy"></i></div>
-      <h3>League Creation</h3>
-      <p>Create unlimited leagues with custom rules, formats, and scoring systems tailored to your competition needs.</p>
-    </article>
-
-    <article class="feature-card" tabindex="0">
-      <div class="feature-icon"><i class="fas fa-futbol"></i></div>
-      <h3>Match Tracking</h3>
-      <p>Record detailed match results including goals, assists, cards, substitutions, and custom events in real-time.</p>
-    </article>
-
-    <article class="feature-card" tabindex="0">
-      <div class="feature-icon"><i class="fas fa-table"></i></div>
-      <h3>Dynamic Standings</h3>
-      <p>Automatically generated standings with sortable stats, head-to-head records, and advanced tiebreakers.</p>
-    </article>
-
-    <article class="feature-card" tabindex="0">
-      <div class="feature-icon"><i class="fas fa-users"></i></div>
-      <h3>Team Management</h3>
-      <p>Manage team rosters with player profiles, positions, stats, and photos. Track transfers and team histories.</p>
-    </article>
-
-    <article class="feature-card" tabindex="0">
-      <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-      <h3>Advanced Analytics</h3>
-      <p>Powerful statistics and visualizations to analyze team and player performance with customizable reports.</p>
-    </article>
-
-    <article class="feature-card" tabindex="0">
-      <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
-      <h3>Mobile App</h3>
-      <p>Dedicated mobile apps for iOS and Android with offline support and real-time sync capabilities.</p>
-    </article>
-  </section>
-
-  <section class="stats">
-    <div class="stats-container">
-      <h2>Why Choose Our Platform?</h2>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-number">10,000+</div>
-          <div class="stat-label">Leagues Managed</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">500K+</div>
-          <div class="stat-label">Matches Recorded</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">99.9%</div>
-          <div class="stat-label">Uptime Reliability</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">24/7</div>
-          <div class="stat-label">Customer Support</div>
+  <main>
+    <section class="hero" role="banner" aria-label="Welcome Section">
+      <div class="hero-content container">
+        <h2>Ultimate Football League Management Solution</h2>
+        <p>
+          Create, manage, and analyze football leagues with our powerful tools. Perfect for
+          clubs, schools, and amateur leagues.
+        </p>
+        <div class="btn-group">
+          <a href="add-match.html" class="btn btn-primary" role="button"
+            ><i class="fas fa-play"></i> Get Started</a
+          >
+          <a href="#features" class="btn btn-secondary" role="button"
+            ><i class="fas fa-star"></i> Explore Features</a
+          >
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="football-icon-section">
-    <div class="football-icon-container">
-      <h2>The Beautiful Game</h2>
-      <div class="football-icon"><i class="fas fa-futbol"></i></div>
-      <p class="football-icon-text">Football is more than just a game - it's a passion, a community, and a way of life. Our platform helps you bring that passion to life with professional league management tools accessible to everyone.</p>
-    </div>
-  </section>
+    <!-- Features section removed as requested -->
 
-  <section class="testimonials">
-    <div class="testimonials-container">
+    <section class="stats" aria-label="Statistics highlights">
+      <div class="stats-container container">
+        <h2>Why Choose Our Platform?</h2>
+        <div class="stats-grid">
+          <div class="stat-card" tabindex="0">
+            <div class="stat-number">10,000+</div>
+            <div class="stat-label">Leagues Managed</div>
+          </div>
+          <div class="stat-card" tabindex="0">
+            <div class="stat-number">500K+</div>
+            <div class="stat-label">Matches Recorded</div>
+          </div>
+          <div class="stat-card" tabindex="0">
+            <div class="stat-number">99.9%</div>
+            <div class="stat-label">Uptime Reliability</div>
+          </div>
+          <div class="stat-card" tabindex="0">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Customer Support</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="football-icon-section" tabindex="0">
+      <div class="container">
+        <h2>The Beautiful Game</h2>
+        <div class="football-icon" aria-hidden="true"><i class="fas fa-futbol"></i></div>
+        <p class="football-icon-text">
+          Football is more than just a game - it's a passion, a community, and a way of life. Our
+          platform helps you bring that passion to life with professional league management tools
+          accessible to everyone.
+        </p>
+      </div>
+    </section>
+
+    <section class="testimonials" aria-label="User testimonials">
       <h2>What Our Users Say</h2>
       <div class="testimonial-cards">
-        <div class="testimonial-card">
-          <div class="testimonial-text">
-            This platform revolutionized how we manage our local league. The automated standings and match recording save us hours every week.
-          </div>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Smith" class="author-avatar" />
+        <article class="testimonial-card" tabindex="0">
+          <p class="testimonial-text">
+            This platform revolutionized how we manage our local league. The automated standings and
+            match recording save us hours every week.
+          </p>
+          <footer class="testimonial-author">
+            <img
+              src="https://randomuser.me/api/portraits/men/32.jpg"
+              alt="John Smith"
+              class="author-avatar"
+              width="50"
+              height="50"
+              loading="lazy"
+            />
             <div class="author-info">
               <h4>John Smith</h4>
               <p>League Administrator, City Football Association</p>
             </div>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-text">
-            As a coach, I love the detailed player statistics. It helps me make data-driven decisions about training and lineups.
-          </div>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="author-avatar" />
+          </footer>
+        </article>
+        <article class="testimonial-card" tabindex="0">
+          <p class="testimonial-text">
+            As a coach, I love the detailed player statistics. It helps me make data-driven decisions
+            about training and lineups.
+          </p>
+          <footer class="testimonial-author">
+            <img
+              src="https://randomuser.me/api/portraits/women/44.jpg"
+              alt="Sarah Johnson"
+              class="author-avatar"
+              width="50"
+              height="50"
+              loading="lazy"
+            />
             <div class="author-info">
               <h4>Sarah Johnson</h4>
               <p>Head Coach, United Youth FC</p>
             </div>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-text">
-            The mobile app makes it so easy to record matches right from the pitch. No more paperwork and spreadsheets!
-          </div>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="David Wilson" class="author-avatar" />
+          </footer>
+        </article>
+        <article class="testimonial-card" tabindex="0">
+          <p class="testimonial-text">
+            The mobile app makes it so easy to record matches right from the pitch. No more paperwork
+            and spreadsheets!
+          </p>
+          <footer class="testimonial-author">
+            <img
+              src="https://randomuser.me/api/portraits/men/75.jpg"
+              alt="David Wilson"
+              class="author-avatar"
+              width="50"
+              height="50"
+              loading="lazy"
+            />
             <div class="author-info">
               <h4>David Wilson</h4>
               <p>Referee, Regional Football League</p>
             </div>
-          </div>
-        </div>
+          </footer>
+        </article>
       </div>
-    </div>
-  </section>
+    </section>
 
-
-
-  <!-- <section class="pricing">
-    <div class="pricing-container">
-      <h2>eFootball Mobile Features</h2>
-      <p class="subtitle">Experience the ultimate mobile football simulation with these exciting features</p>
-      <div class="pricing-cards">
-        <div class="pricing-card">
-          <h3>Beginner</h3>
-          <div class="price">New Player<span>Experience</span></div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> 5-Star Player Signings</li>
-            <li><i class="fas fa-check"></i> Basic Team Management</li>
-            <li><i class="fas fa-check"></i> Training Camp Access</li>
-            <li><i class="fas fa-check"></i> Friendly Matches</li>
-          </ul>
-          <button class="btn">Play Now</button>
-        </div>
-        <div class="pricing-card popular">
-          <div class="popular-badge">Most Popular</div>
-          <h3>Pro</h3>
-          <div class="price">Competitive<span>Play</span></div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> Legendary Players</li>
-            <li><i class="fas fa-check"></i> Online Tournaments</li>
-            <li><i class="fas fa-check"></i> Advanced Tactics</li>
-            <li><i class="fas fa-check"></i> Team Customization</li>
-            <li><i class="fas fa-check"></i> Weekly Challenges</li>
-          </ul>
-          <button class="btn">Play Now</button>
-        </div>
-        <div class="pricing-card">
-          <h3>Legend</h3>
-          <div class="price">Ultimate<span>Edition</span></div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> All Legend Players</li>
-            <li><i class="fas fa-check"></i> Exclusive Kits & Balls</li>
-            <li><i class="fas fa-check"></i> VIP Matchmaking</li>
-            <li><i class="fas fa-check"></i> Global Leaderboards</li>
-            <li><i class="fas fa-check"></i> eSports Events</li>
-            <li><i class="fas fa-check"></i> Premium Rewards</li>
-          </ul>
-          <button class="btn">Play Now</button>
-        </div>
-      </div>
-    </div>
-  </section> -->
-
-  <section class="newsletter">
-    <div class="newsletter-container">
+    <section class="newsletter" aria-label="Newsletter subscription">
       <h2>Stay Updated</h2>
       <p>Subscribe to our newsletter for the latest features, tips, and football management insights.</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Enter your email" required aria-label="Email address for newsletter" />
-        <button type="submit">Subscribe</button>
+      <form class="newsletter-form" novalidate>
+        <label for="newsletter-email" class="visually-hidden">Email address</label>
+        <input
+          type="email"
+          id="newsletter-email"
+          name="email"
+          placeholder="Enter your email"
+          required
+          aria-required="true"
+          aria-label="Email address for newsletter"
+        />
+        <button type="submit" class="btn btn-primary">Subscribe</button>
       </form>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <footer>
+  <footer role="contentinfo">
     <div class="footer-container">
-      <div class="footer-about">
+      <section class="footer-about" aria-label="About Football League Manager">
         <div class="footer-logo">
-          <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png" alt="Football League Manager Logo" />
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/53/53283.png"
+            alt="Football League Manager Logo"
+            width="36"
+            height="36"
+            aria-hidden="true"
+            focusable="false"
+          />
           <h3>Football League Manager</h3>
         </div>
-        <p>The ultimate solution for managing football leagues of any size with powerful tools and analytics.</p>
+        <p>
+          The ultimate solution for managing football leagues of any size with powerful tools and
+          analytics.
+        </p>
         <div class="social-links">
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" aria-label="Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
         </div>
-      </div>
-      <div class="footer-links">
-        <h4>Features</h4>
-        <ul>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> League Management</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Match Tracking</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Team Statistics</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Player Analytics</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Mobile App</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Documentation</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> API Reference</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Community Forum</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Webinars</a></li>
-        </ul>
-      </div>
-      <div class="footer-contact">
+      </section>
+
+      <!-- Features and Resources sections removed as requested -->
+
+      <section class="footer-contact" aria-label="Contact Information">
         <h4>Contact Us</h4>
-        <p><i class="fas fa-map-marker-alt"></i> 123 Football Street, Sports City</p>
-        <p><i class="fas fa-phone"></i> +254 714080296</p>
-        <p><i class="fas fa-envelope"></i> favourmwatua@gmail.com</p>
-        <p><i class="fas fa-clock"></i> All time open. 24/7</p>
-      </div>
+        <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i>123 Football Street, Sports City</p>
+        <p><i class="fas fa-phone" aria-hidden="true"></i>+254 714080296</p>
+        <p><i class="fas fa-envelope" aria-hidden="true"></i>favourmwatua@gmail.com</p>
+        <p><i class="fas fa-clock" aria-hidden="true"></i>All time open. 24/7</p>
+      </section>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2024 Football League Manager. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+      <p>
+        &copy; 2024 Football League Manager. All rights reserved.
+        |
+        <a href="#">Privacy Policy</a> |
+        <a href="#">Terms of Service</a>
+      </p>
     </div>
   </footer>
 
-  <div class="back-to-top" aria-label="Back to top">
-    <i class="fas fa-arrow-up"></i>
+  <div class="back-to-top" aria-label="Back to top" role="button" tabindex="0">
+    <i class="fas fa-arrow-up" aria-hidden="true"></i>
   </div>
 
   <!-- Login Modal -->
-  <div class="modal" id="login-modal">
+  <div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
     <div class="modal-content">
       <button class="modal-close" aria-label="Close modal">&times;</button>
-      <h3>Login to Your Account</h3>
+      <h3 id="modal-title">Login to Your Account</h3>
       <form>
         <div style="margin-bottom: 1rem;">
           <label for="email" style="display: block; margin-bottom: 0.5rem;">Email</label>
-          <input type="email" id="email" style="width: 100%; padding: 0.8rem; border-radius: 6px; border: 1px solid #ccc;" required />
+          <input
+            type="email"
+            id="email"
+            style="width: 100%; padding: 0.8rem; border-radius: 6px; border: 1px solid #ccc;"
+            required
+          />
         </div>
         <div style="margin-bottom: 1.5rem;">
           <label for="password" style="display: block; margin-bottom: 0.5rem;">Password</label>
-          <input type="password" id="password" style="width: 100%; padding: 0.8rem; border-radius: 6px; border: 1px solid #ccc;" required />
+          <input
+            type="password"
+            id="password"
+            style="width: 100%; padding: 0.8rem; border-radius: 6px; border: 1px solid #ccc;"
+            required
+          />
         </div>
-        <button type="submit" class="btn" style="width: 100%;">Login</button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          style="width: 100%; font-size: 1rem; font-weight: 700;"
+        >
+          Login
+        </button>
       </form>
-      <p style="margin-top: 1rem; text-align: center;">Don't have an account? <a href="#" style="color: var(--primary);">Sign up</a></p>
+      <p style="margin-top: 1rem; text-align: center;">
+        Don't have an account?
+        <a href="#" style="color: var(--primary); font-weight: 600;">Sign up</a>
+      </p>
     </div>
   </div>
 
   <script>
-    // ===== Existing Code (keep all this) =====
     // Back to top button
     const backToTopButton = document.querySelector('.back-to-top');
-    
+
     window.addEventListener('scroll', () => {
       if (window.pageYOffset > 300) {
         backToTopButton.classList.add('active');
@@ -1238,162 +1182,122 @@
         backToTopButton.classList.remove('active');
       }
     });
-    
+
     backToTopButton.addEventListener('click', () => {
       window.scrollTo({
         top: 0,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     });
-    
+    backToTopButton.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        backToTopButton.click();
+      }
+    });
+
     // Mobile menu toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const nav = document.querySelector('nav ul');
-    
+    const navUl = document.querySelector('nav ul');
+
     mobileMenuBtn.addEventListener('click', () => {
-      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+      const isOpen = navUl.classList.toggle('open');
+      mobileMenuBtn.setAttribute('aria-expanded', isOpen);
     });
-    
+
     // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
+
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
-        
+
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
           targetElement.scrollIntoView({
-            behavior: 'smooth'
+            behavior: 'smooth',
           });
+
+          // Close mobile nav on click (mobile only)
+          if (window.innerWidth < 769 && navUl.classList.contains('open')) {
+            navUl.classList.remove('open');
+            mobileMenuBtn.setAttribute('aria-expanded', false);
+          }
         }
       });
     });
-    
-    // Responsive adjustments
+
+    // Responsive nav display on resize
     function handleResponsive() {
       if (window.innerWidth > 768) {
-        nav.style.display = 'flex';
+        navUl.classList.remove('open');
+        mobileMenuBtn.setAttribute('aria-expanded', false);
+        navUl.style.display = 'flex';
       } else {
-        nav.style.display = 'none';
+        navUl.style.display = 'none';
       }
     }
-    
+
     window.addEventListener('resize', handleResponsive);
     handleResponsive();
-  
-    // ===== Modified Auth Code =====
-    // Check login status (NEW CODE)
+
+    // Auth Code
     const token = localStorage.getItem('authToken');
     const usernameDisplay = document.getElementById('username-display');
     const logoutBtn = document.getElementById('logout-btn');
-    
-    // Remove login modal code since we have separate pages now
     const loginBtn = document.getElementById('login-btn');
+
     if (loginBtn) {
       loginBtn.addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = '/login.html';
       });
     }
-  
+
     if (token) {
-      // Fetch user data
       fetch('/api/users/me', {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.username) {
-          usernameDisplay.textContent = `Welcome, ${data.username}`;
-          logoutBtn.style.display = 'inline-block';
-          
-          // Hide login button if exists
-          if (loginBtn) loginBtn.style.display = 'none';
-        }
-      })
-      .catch(() => {
-        localStorage.removeItem('authToken');
-      });
-  
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.username) {
+            usernameDisplay.textContent = `Welcome, ${data.username}`;
+            logoutBtn.style.display = 'inline-block';
+
+            if (loginBtn) loginBtn.style.display = 'none';
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem('authToken');
+        });
+
       logoutBtn.addEventListener('click', () => {
         localStorage.removeItem('authToken');
         window.location.href = '/login.html';
       });
     } else {
-      // Hide logout button if not logged in
       logoutBtn.style.display = 'none';
     }
-  
-    // ===== Modified Form Handlers (if forms still exist) =====
-    const messageDiv = document.getElementById('message');
-    
-    // // Update signup form if exists
-    // const signupForm = document.getElementById('signupForm');
-    // if (signupForm) {
-    //   signupForm.addEventListener('submit', async (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData(e.target);
-        
-    //     try {
-    //       const res = await fetch('/api/users/signup', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({
-    //           username: formData.get('username'),
-    //           password: formData.get('password')
-    //         })
-    //       });
-  
-    //       const result = await res.json();
-    //       if (res.ok) {
-    //         window.location.href = '/login.html?signup=success';
-    //       } else {
-    //         messageDiv.textContent = result.message;
-    //         messageDiv.style.color = 'red';
-    //       }
-    //     } catch (err) {
-    //       messageDiv.textContent = 'Error connecting to server';
-    //       messageDiv.style.color = 'red';
-    //     }
-    //   });
-    // }
-  
-    // // Update login form if exists
-    // const loginForm = document.getElementById('loginForm');
-    // if (loginForm) {
-    //   loginForm.addEventListener('submit', async (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData(e.target);
-        
-    //     try {
-    //       const res = await fetch('/api/users/login', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({
-    //           username: formData.get('username'),
-    //           password: formData.get('password')
-    //         })
-    //       });
-  
-    //       const result = await res.json();
-    //       if (res.ok) {
-    //         localStorage.setItem('authToken', result.token);
-    //         window.location.href = '/index.html';
-    //       } else {
-    //         messageDiv.textContent = result.message;
-    //         messageDiv.style.color = 'red';
-    //       }
-    //     } catch (err) {
-    //       messageDiv.textContent = 'Error connecting to server';
-    //       messageDiv.style.color = 'red';
-    //     }
-    //   });
-    // }
   </script>
+
+  <style>
+    /* Visually hidden for accessibility */
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
 </body>
 
 </html>
+
